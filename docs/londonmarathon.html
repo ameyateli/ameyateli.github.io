@@ -8,9 +8,9 @@
 
 <meta name="author" content="Ameya Teli">
 <meta name="dcterms.date" content="2024-09-18">
-<meta name="description" content="Analysis of Premier League data from TidyTuesday!">
+<meta name="description" content="Analysis of London Marathon data from TidyTuesday">
 
-<title>Premier League 2021-2022 – ameyateli.github.io</title>
+<title>London Marathon – ameyateli.github.io</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -163,12 +163,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Premier League 2021-2022</h1>
+<h1 class="title">London Marathon</h1>
 </div>
 
 <div>
   <div class="description">
-    Analysis of Premier League data from TidyTuesday!
+    Analysis of London Marathon data from TidyTuesday
   </div>
 </div>
 
@@ -197,69 +197,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Analysis of Goals Scored by Home Teams for each month of the Premier League in 2021-2022.</p>
+<p>About this site</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2023-04-04'</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2023</span>, <span class="at">week =</span> <span class="dv">14</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>soccer <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>soccer</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>soccer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 380 × 22
-   Date      HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee    HS
-   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
- 1 13/08/20… Brentfo… Arsenal      2     0 H         1     0 H     M Oliv…     8
- 2 14/08/20… Man Uni… Leeds        5     1 H         1     0 H     P Tier…    16
- 3 14/08/20… Burnley  Brighton     1     2 A         1     0 H     D Coote    14
- 4 14/08/20… Chelsea  Crystal…     3     0 H         2     0 H     J Moss     13
- 5 14/08/20… Everton  Southam…     3     1 H         0     1 A     A Madl…    14
- 6 14/08/20… Leicest… Wolves       1     0 H         1     0 H     C Paws…     9
- 7 14/08/20… Watford  Aston V…     3     2 H         2     0 H     M Dean     13
- 8 14/08/20… Norwich  Liverpo…     0     3 A         0     1 A     A Marr…    14
- 9 15/08/20… Newcast… West Ham     2     4 A         2     1 H     M Atki…    17
-10 15/08/20… Tottenh… Man City     1     0 H         0     0 D     A Tayl…    13
-# ℹ 370 more rows
-# ℹ 11 more variables: AS &lt;dbl&gt;, HST &lt;dbl&gt;, AST &lt;dbl&gt;, HF &lt;dbl&gt;, AF &lt;dbl&gt;,
-#   HC &lt;dbl&gt;, AC &lt;dbl&gt;, HY &lt;dbl&gt;, AY &lt;dbl&gt;, HR &lt;dbl&gt;, AR &lt;dbl&gt;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>soccer_month <span class="ot">&lt;-</span> soccer <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">format</span>(<span class="fu">as.Date</span>(Date,<span class="at">format=</span><span class="st">"%d/%m/%Y"</span>),<span class="st">"%m"</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>soccer_month</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 380 × 23
-   Date      HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee    HS
-   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
- 1 13/08/20… Brentfo… Arsenal      2     0 H         1     0 H     M Oliv…     8
- 2 14/08/20… Man Uni… Leeds        5     1 H         1     0 H     P Tier…    16
- 3 14/08/20… Burnley  Brighton     1     2 A         1     0 H     D Coote    14
- 4 14/08/20… Chelsea  Crystal…     3     0 H         2     0 H     J Moss     13
- 5 14/08/20… Everton  Southam…     3     1 H         0     1 A     A Madl…    14
- 6 14/08/20… Leicest… Wolves       1     0 H         1     0 H     C Paws…     9
- 7 14/08/20… Watford  Aston V…     3     2 H         2     0 H     M Dean     13
- 8 14/08/20… Norwich  Liverpo…     0     3 A         0     1 A     A Marr…    14
- 9 15/08/20… Newcast… West Ham     2     4 A         2     1 H     M Atki…    17
-10 15/08/20… Tottenh… Man City     1     0 H         0     0 D     A Tayl…    13
-# ℹ 370 more rows
-# ℹ 12 more variables: AS &lt;dbl&gt;, HST &lt;dbl&gt;, AST &lt;dbl&gt;, HF &lt;dbl&gt;, AF &lt;dbl&gt;,
-#   HC &lt;dbl&gt;, AC &lt;dbl&gt;, HY &lt;dbl&gt;, AY &lt;dbl&gt;, HR &lt;dbl&gt;, AR &lt;dbl&gt;, Month &lt;chr&gt;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> soccer_month <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Total_Goals =</span> <span class="fu">sum</span>(FTHG)) </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> <span class="fu">mutate</span>(soccer_grouped, <span class="at">Month_Name =</span> month.name[<span class="fu">as.numeric</span>(Month)])</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Month_Name, <span class="at">y=</span>Total_Goals)) <span class="sc">+</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Goals Scored by Home Teams"</span>, <span class="at">x=</span> <span class="st">"Month"</span>, <span class="at">y =</span> <span class="st">"Goals by Home Team"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2023-04-25'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2023</span>, <span class="at">week =</span> <span class="dv">17</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>winners <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>winners</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>london_marathon <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>london_marathon</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> london_marathon, <span class="fu">aes</span>(<span class="at">x=</span>Year, <span class="at">y=</span>Accepted)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span><span class="st">"Number of Accepted Runners vs Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="epl_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="londonmarathon_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
