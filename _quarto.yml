@@ -8,7 +8,12 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - text: "Data Viz"
+        menu:
+          - href: epl.qmd
+            text: "Premier League 2021-2022"
+          - href: londonmarathon.qmd
+            text: "London Marathon"
 
 format:
   html:

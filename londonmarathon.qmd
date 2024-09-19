@@ -1,0 +1,26 @@
+---
+title: "Eurovision"
+description:
+  Analysis of Eurovision data from TidyTuesday 
+author: Ameya Teli
+date: September 18, 2024
+format: html
+execute: 
+  warning: false
+  message: false
+---
+
+About this site
+
+```{r}
+library(ggplot2)
+tuesdata <- tidytuesdayR::tt_load('2022-05-17')
+tuesdata <- tidytuesdayR::tt_load(2022, week = 20)
+
+eurovision <- tuesdata$eurovision
+
+ggplot(data = eurovision, aes(x=year,y=total_points))+
+  geom_point()+
+  labs(title="Total Points in Eurovision per Year", x="Year",y="Total Points")+
+ 
+```
