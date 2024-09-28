@@ -8,13 +8,15 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: pj2.qmd 
+      - text: "Project 2"
       - text: "Data Viz"
         menu:
           - href: epl.qmd
             text: "Premier League 2021-2022"
           - href: londonmarathon.qmd
             text: "London Marathon"
-
+        
 format:
   html:
     theme: cosmo
