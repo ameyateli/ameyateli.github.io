@@ -9,7 +9,7 @@ website:
       - href: index.qmd
         text: Home
       - href: pj2.qmd 
-      - text: "Project 2"
+        text: "Project 2"
       - text: "Data Viz"
         menu:
           - href: epl.qmd

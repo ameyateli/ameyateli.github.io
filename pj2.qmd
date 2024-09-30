@@ -1,7 +1,7 @@
 ---
 title: "Project 2"
 description:
-  Analysis of London Marathon data from TidyTuesday 
+  Analysis of Holiday Movie data from the Internet Movie Database 
 author: Ameya Teli
 date: September 28, 2024
 format: html
@@ -9,3 +9,48 @@ execute:
   warning: false
   message: false
 ---
+[Link to Database](https://developer.imdb.com/non-commercial-datasets/)
+
+```{r}
+library(ggplot2)
+tuesdata <- tidytuesdayR::tt_load('2023-12-12')
+
+holiday_movies <- tuesdata$holiday_movies
+holiday_movie_genres <- tuesdata$holiday_movie_genres
+
+holiday_movie_genres
+holiday_movies
+```
+
+
+First Plot - What genre do movies with love in the title fall under? 
+
+```{r}
+library(stringr)
+library(dplyr)
+library(tidyr)
+
+colnames(holiday_movies)
+#holiday_movies$simple_title
+
+love <- holiday_movies|>
+  filter(str_detect(simple_title, "love"))
+love
+
+love_genre <- love|>
+  mutate(genre_list = genres)|>
+  separate(genres, c('first','second', 'third'))
+love_genre
+
+ggplot(holiday_love, aes(x = first))+ geom_bar(stat = "count")+labs(title = "Genres of Movies with Love in the Title", x = "Genre")
+```
+This plot shows that ______. 
+
+Second Plot - 
+
+```{r}
+
+
+
+```
+
