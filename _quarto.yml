@@ -8,7 +8,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: pj2.qmd 
+      - href: shake.qmd
         text: "Project 2"
       - text: "Data Viz"
         menu:

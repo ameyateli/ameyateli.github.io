@@ -1,5 +1,5 @@
 ---
-title: "Project 2"
+title: "Project "
 description:
   Analysis of Holiday Movie data from the Internet Movie Database 
 author: Ameya Teli
@@ -9,6 +9,7 @@ execute:
   warning: false
   message: false
 ---
+
 [Link to Database](https://developer.imdb.com/non-commercial-datasets/)
 
 ```{r}
@@ -22,13 +23,13 @@ holiday_movie_genres
 holiday_movies
 ```
 
-
-First Plot - What genre do movies with love in the title fall under? 
+First Plot - What genre do movies with love in the title fall under?
 
 ```{r}
 library(stringr)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
 
 colnames(holiday_movies)
 #holiday_movies$simple_title
@@ -42,15 +43,23 @@ love_genre <- love|>
   separate(genres, c('first','second', 'third'))
 love_genre
 
-ggplot(holiday_love, aes(x = first))+ geom_bar(stat = "count")+labs(title = "Genres of Movies with Love in the Title", x = "Genre")
-```
-This plot shows that ______. 
+love_movies <- inner_join(love_genre, holiday_movie_genres, by = "tconst")
+love_movies
 
-Second Plot - 
+ggplot(love_movies, aes(x = genres))+ geom_bar(stat = "count")+labs(title = "Genres of Holiday Movies with Love in the Title", x = "Genre")
+```
+
+This plot shows that the most prevalent genre's for holiday movies about love are Romance, Family, Drama, and Comedy.
+
+2nd Plot - Genres of Holiday Movies
 
 ```{r}
 
-
+ggplot(holiday_movie_genres, aes(x = genres)) + 
+  geom_bar(stat = "count") + 
+  labs(title = "Genres of Holiday Movies", x = "Genre") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
+3rd Plot -

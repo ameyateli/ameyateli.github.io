@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ameya Teli">
-<meta name="dcterms.date" content="2024-09-28">
-<meta name="description" content="Analysis of Holiday Movie data from the Internet Movie Database">
+<meta name="dcterms.date" content="2024-10-02">
+<meta name="description" content="Analysis of Data from Shakespeare’s Plays by the Web’s first edition of the Complete Works of William Shakespeare https://shakespeare.mit.edu">
 
-<title>Project – ameyateli.github.io</title>
+<title>Project 2 – ameyateli.github.io</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./shake.html"> 
+    <a class="nav-link active" href="./shake.html" aria-current="page"> 
 <span class="menu-text">Project 2</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -167,12 +167,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project</h1>
+<h1 class="title">Project 2</h1>
 </div>
 
 <div>
   <div class="description">
-    Analysis of Holiday Movie data from the Internet Movie Database
+    Analysis of Data from Shakespeare’s Plays by the Web’s first edition of the Complete Works of William Shakespeare https://shakespeare.mit.edu
   </div>
 </div>
 
@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 28, 2024</p>
+      <p class="date">October 2, 2024</p>
     </div>
   </div>
   
@@ -201,159 +201,165 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><a href="https://developer.imdb.com/non-commercial-datasets/">Link to Database</a></p>
+<p>This my textual analysis of Shakespeare dialogue in his tragedy “Romeo and Juliet”.</p>
+<p>This data was curated by <a href="https://github.com/nrennie">Nicola Rennie</a> from <a href="https://shakespeare.mit.edu">The Complete Works of William Shakespeare</a> the Web’s first edition of the Complete Works of William Shakespeare.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2023-12-12'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>holiday_movies <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>holiday_movies</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>holiday_movie_genres <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>holiday_movie_genres</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>holiday_movie_genres</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4,531 × 2
-   tconst    genres   
-   &lt;chr&gt;     &lt;chr&gt;    
- 1 tt0020356 Comedy   
- 2 tt0020823 Drama    
- 3 tt0020823 Romance  
- 4 tt0020985 Comedy   
- 5 tt0020985 Drama    
- 6 tt0021268 Comedy   
- 7 tt0021377 Comedy   
- 8 tt0021377 Romance  
- 9 tt0021381 Adventure
-10 tt0021381 Crime    
-# ℹ 4,521 more rows</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2024</span>, <span class="at">week =</span> <span class="dv">38</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hamlet <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>hamlet</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>macbeth</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>romeo_juliet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>holiday_movies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,265 × 14
-   tconst   title_type primary_title original_title  year runtime_minutes genres
-   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt; 
- 1 tt00203… movie      Sailor's Hol… Sailor's Holi…  1929              58 Comedy
- 2 tt00208… movie      The Devil's … The Devil's H…  1930              80 Drama…
- 3 tt00209… movie      Holiday       Holiday         1930              91 Comed…
- 4 tt00212… movie      Holiday of S… Prazdnik svya…  1930              83 Comedy
- 5 tt00213… movie      Sin Takes a … Sin Takes a H…  1930              81 Comed…
- 6 tt00213… movie      Sinners' Hol… Sinners' Holi…  1930              60 Adven…
- 7 tt00230… movie      Husband's Ho… Husband's Hol…  1931              70 Drama 
- 8 tt00248… movie      Beggar's Hol… Beggar's Holi…  1934              60 Crime…
- 9 tt00250… movie      Cowboy Holid… Cowboy Holiday  1934              56 Weste…
-10 tt00250… movie      Death Takes … Death Takes a…  1934              79 Drama…
-# ℹ 2,255 more rows
-# ℹ 7 more variables: simple_title &lt;chr&gt;, average_rating &lt;dbl&gt;,
-#   num_votes &lt;dbl&gt;, christmas &lt;lgl&gt;, hanukkah &lt;lgl&gt;, kwanzaa &lt;lgl&gt;,
-#   holiday &lt;lgl&gt;</code></pre>
-</div>
-</div>
-<p>First Plot - What genre do movies with love in the title fall under?</p>
+<p>How much is death mentioned in Romeo and Juliet?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(holiday_movies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "tconst"          "title_type"      "primary_title"   "original_title" 
- [5] "year"            "runtime_minutes" "genres"          "simple_title"   
- [9] "average_rating"  "num_votes"       "christmas"       "hanukkah"       
-[13] "kwanzaa"         "holiday"        </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#holiday_movies$simple_title</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>love <span class="ot">&lt;-</span> holiday_movies<span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(simple_title, <span class="st">"love"</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>love</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 32 × 14
-   tconst   title_type primary_title original_title  year runtime_minutes genres
-   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt; 
- 1 tt00528… movie      Holiday for … Holiday for L…  1959             103 Comedy
- 2 tt00855… tvMovie    The Gift of … The Gift of L…  1983              96 Drama 
- 3 tt00999… tvMovie    The Kid Who … The Kid Who L…  1990             118 Drama 
- 4 tt01370… tvMovie    A Holiday fo… Christmas in …  1996             105 Drama…
- 5 tt04142… tvMovie    Love Hina Ch… Rabu Hina kur…  2000              46 Anima…
- 6 tt04185… movie      Christmas in… Christmas in …  2004             118 Comed…
- 7 tt10623… tvMovie    Christmas Lo… Christmas Lov…  2019              86 Comed…
- 8 tt11171… tvMovie    Our Christma… Our Christmas…  2019              82 Drama…
- 9 tt11666… tvMovie    Inn Love by … Inn for Chris…  2020              88 Comed…
-10 tt12418… movie      A Christmas … A Christmas T…  2020              70 Roman…
-# ℹ 22 more rows
-# ℹ 7 more variables: simple_title &lt;chr&gt;, average_rating &lt;dbl&gt;,
-#   num_votes &lt;dbl&gt;, christmas &lt;lgl&gt;, hanukkah &lt;lgl&gt;, kwanzaa &lt;lgl&gt;,
-#   holiday &lt;lgl&gt;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>love_genre <span class="ot">&lt;-</span> love<span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">genre_list =</span> genres)<span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(genres, <span class="fu">c</span>(<span class="st">'first'</span>,<span class="st">'second'</span>, <span class="st">'third'</span>))</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>love_genre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 32 × 17
-   tconst    title_type primary_title original_title  year runtime_minutes first
-   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;
- 1 tt0052897 movie      Holiday for … Holiday for L…  1959             103 Come…
- 2 tt0085593 tvMovie    The Gift of … The Gift of L…  1983              96 Drama
- 3 tt0099930 tvMovie    The Kid Who … The Kid Who L…  1990             118 Drama
- 4 tt0137000 tvMovie    A Holiday fo… Christmas in …  1996             105 Drama
- 5 tt0414243 tvMovie    Love Hina Ch… Rabu Hina kur…  2000              46 Anim…
- 6 tt0418599 movie      Christmas in… Christmas in …  2004             118 Come…
- 7 tt106234… tvMovie    Christmas Lo… Christmas Lov…  2019              86 Come…
- 8 tt111713… tvMovie    Our Christma… Our Christmas…  2019              82 Drama
- 9 tt116669… tvMovie    Inn Love by … Inn for Chris…  2020              88 Come…
-10 tt124182… movie      A Christmas … A Christmas T…  2020              70 Roma…
-# ℹ 22 more rows
-# ℹ 10 more variables: second &lt;chr&gt;, third &lt;chr&gt;, simple_title &lt;chr&gt;,
-#   average_rating &lt;dbl&gt;, num_votes &lt;dbl&gt;, christmas &lt;lgl&gt;, hanukkah &lt;lgl&gt;,
-#   kwanzaa &lt;lgl&gt;, holiday &lt;lgl&gt;, genre_list &lt;chr&gt;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>love_movies <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(love_genre, holiday_movie_genres, <span class="at">by =</span> <span class="st">"tconst"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>love_movies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 66 × 18
-   tconst    title_type primary_title original_title  year runtime_minutes first
-   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;
- 1 tt0052897 movie      Holiday for … Holiday for L…  1959             103 Come…
- 2 tt0085593 tvMovie    The Gift of … The Gift of L…  1983              96 Drama
- 3 tt0099930 tvMovie    The Kid Who … The Kid Who L…  1990             118 Drama
- 4 tt0137000 tvMovie    A Holiday fo… Christmas in …  1996             105 Drama
- 5 tt0137000 tvMovie    A Holiday fo… Christmas in …  1996             105 Drama
- 6 tt0137000 tvMovie    A Holiday fo… Christmas in …  1996             105 Drama
- 7 tt0414243 tvMovie    Love Hina Ch… Rabu Hina kur…  2000              46 Anim…
- 8 tt0414243 tvMovie    Love Hina Ch… Rabu Hina kur…  2000              46 Anim…
- 9 tt0414243 tvMovie    Love Hina Ch… Rabu Hina kur…  2000              46 Anim…
-10 tt0418599 movie      Christmas in… Christmas in …  2004             118 Come…
-# ℹ 56 more rows
-# ℹ 11 more variables: second &lt;chr&gt;, third &lt;chr&gt;, simple_title &lt;chr&gt;,
-#   average_rating &lt;dbl&gt;, num_votes &lt;dbl&gt;, christmas &lt;lgl&gt;, hanukkah &lt;lgl&gt;,
-#   kwanzaa &lt;lgl&gt;, holiday &lt;lgl&gt;, genre_list &lt;chr&gt;, genres &lt;chr&gt;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(love_movies, <span class="fu">aes</span>(<span class="at">x =</span> genres))<span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Genres of Holiday Movies with Love in the Title"</span>, <span class="at">x =</span> <span class="st">"Genre"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>deathrj <span class="ot">&lt;-</span> romeo_juliet <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(<span class="fu">str_detect</span>(dialogue, <span class="st">"death"</span>)) </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(deathrj, <span class="fu">aes</span>(<span class="at">x =</span> character)) <span class="sc">+</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which character mentions death the most?"</span>, <span class="at">x =</span> <span class="st">"Character"</span>) <span class="sc">+</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pj2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>act_num <span class="ot">&lt;-</span> deathrj <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act =</span> <span class="fu">str_extract</span>(act, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(act_num, <span class="fu">aes</span>(<span class="at">x =</span> act)) <span class="sc">+</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which act has most mentions of death?"</span>, <span class="at">x =</span> <span class="st">"Act"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shake_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This plot shows that the most prevalent genre’s for holiday movies about love are Romance, Family, Drama, and Comedy.</p>
-<p>2nd Plot - Genres of Holiday Movies</p>
+<p>This first graph shows that Romeo has the most instances of the word “death” in his dialogue and Friar Laurence had the second most in his dialogue. This is interesting because it makes sense that Romeo says death the most as he eventually is one of those who die in this tragedy and Friar Laurence is the one to encourage this from selling a sleeping potion. As Romeo has more dialogue presumably as one of the more main characters it makes sense that he has more mentions by count versus the Apothecary who sells Romeo poison that will kill him.</p>
+<p>Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in Act 3 is interesting. Maybe there is some foreshadowing happening here or something else significant which we can look through in the next plot.</p>
+<p>This plot will analyze specifically dialogue in Act 3 looking for exclamations and question marks which indicate a strong emotion in the dialogue.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(holiday_movie_genres, <span class="fu">aes</span>(<span class="at">x =</span> genres)) <span class="sc">+</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Genres of Holiday Movies"</span>, <span class="at">x =</span> <span class="st">"Genre"</span>) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num <span class="ot">&lt;-</span> act_num <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(act <span class="sc">==</span> <span class="st">"III"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">strong_punctuation =</span> <span class="fu">str_detect</span>(dialogue, <span class="st">"!+|</span><span class="sc">\\</span><span class="st">?+"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scene =</span> <span class="fu">str_extract</span>(scene, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> scene, <span class="at">fill =</span> strong_punctuation))<span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of strong punctuation marks across scenes"</span>, <span class="at">x =</span> <span class="st">"Scene"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pj2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>3rd Plot -</p>
+<p>This shows that there is a greater proportion of strong punctuation in Scene 5 than the rest. So potentially the strongest emotions in relation to death occur here? We will also check which scene had the most mentions of death below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> scene)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mentions of death across scenes in Act III"</span>, <span class="at">x =</span> <span class="st">"Scene"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shake_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Maybe this indicates that the mentions of death in the other scenes are less emotional and thus use less strong punctuation. We will look for the following word, symbol, or space after death, to see how they compare.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num <span class="ot">&lt;-</span> act_num <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(act <span class="sc">==</span> <span class="st">"III"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word_after_death =</span> <span class="fu">str_extract</span>(dialogue, <span class="st">"death</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">S+"</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> word_after_death))<span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>)<span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Death and the Word/Character after in Act III"</span>, </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Death + Word"</span>, </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>)<span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shake_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 25 × 6
+   act   scene     character      dialogue          line_number word_after_death
+   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;           
+ 1 III   Scene I   Mercutio       cat, to scratch …        1525 death!          
+ 2 III   Scene I   Benvolio       Stand not amazed…        1560 death,          
+ 3 III   Scene I   Benvolio       Cold death aside…        1590 death aside,    
+ 4 III   Scene II  Juliet         Than the death-d…        1676 death-darting   
+ 5 III   Scene II  Juliet         Some word there …        1739 death,          
+ 6 III   Scene II  Juliet         Hath slain ten t…        1745 &lt;NA&gt;            
+ 7 III   Scene II  Juliet         But with a rear-…        1752 death,          
+ 8 III   Scene II  Juliet         In that word's d…        1757 death;          
+ 9 III   Scene II  Juliet         And death, not R…        1768 death,          
+10 III   Scene III Friar Laurence Not body's death…        1786 death,          
+# ℹ 15 more rows</code></pre>
+</div>
+</div>
+<p>Upon viewing the first few lines of this data frame we can see that “Tybalt’s death” is mentioned a great amount, so perhaps the reason death is mentioned so much in this Act is because this character actually did die.</p>
+<hr>
+<hr>
+<p>Future analysis on how family names associate with mentions of death:</p>
+<p>These next two plots analyze which characters mention the Montague’s and the Capulet’s the most - the two rivaling families within Romeo and Juliet.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dialogue_lower =</span> <span class="fu">str_to_lower</span>(dialogue))<span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(dialogue_lower, <span class="st">"montague"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> character)) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which character mentions the Montague family the most?"</span>, <span class="at">x =</span> <span class="st">"Character"</span>) <span class="sc">+</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shake_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dialogue_lower =</span> <span class="fu">str_to_lower</span>(dialogue))<span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(dialogue_lower, <span class="st">"capulet"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> character)) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which character mentions the Capulet family the most?"</span>, <span class="at">x =</span> <span class="st">"Character"</span>) <span class="sc">+</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shake_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These two plots show that Juliet mentions the Montague family the most and Benvolio, Prince, and Romeo mention the Capulet family the most. This is interesting because Romeo and Juliet have the most dialogue presumably as they are main characters so they mention the family names the most.</p>
 
 
 
