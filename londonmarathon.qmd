@@ -10,8 +10,7 @@ execute:
   message: false
 ---
 
-This data comes from  Nicola Rennie's 
-[LondonMarathon R Package](https://github.com/nrennie/LondonMarathon) contining two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data.  
+This data comes from Nicola Rennie's [LondonMarathon R Package](https://github.com/nrennie/LondonMarathon) contining two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data.
 
 ```{r}
 library(ggplot2)

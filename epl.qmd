@@ -10,10 +10,9 @@ execute:
   message: false
 ---
 
-Analysis of Goals Scored by Home Teams for each month of the Premier League in 2021-2022. 
+Analysis of Goals Scored by Home Teams for each month of the Premier League in 2021-2022.
 
 This data comes from [Premier League Match Data 2021-2022](https://www.kaggle.com/datasets/evangower/premier-league-match-data) from [Evan Gower](https://github.com/evangower).
-
 
 ```{r}
 library(ggplot2)
