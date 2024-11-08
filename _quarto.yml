@@ -9,7 +9,9 @@ website:
       - href: index.qmd
         text: Home
       - href: shake.qmd
-        text: "Project 2"
+        text: "Shakespeare Text Analysis"
+      - href: simstudy.qmd
+        text: "Simulation Study"
       - text: "Data Viz"
         menu:
           - href: epl.qmd

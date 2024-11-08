@@ -17,10 +17,11 @@ This data comes from [Premier League Match Data 2021-2022](https://www.kaggle.co
 ```{r}
 library(ggplot2)
 library(dplyr)
-tuesdata <- tidytuesdayR::tt_load('2023-04-04')
-tuesdata <- tidytuesdayR::tt_load(2023, week = 14)
+library(tidyverse)
 
-soccer <- tuesdata$soccer
+
+soccer <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv')
+
 soccer
 
 soccer_month <- soccer |>
@@ -37,5 +38,7 @@ soccer_grouped <- mutate(soccer_grouped, Month_Name = month.name[as.numeric(Mont
 soccer_grouped |>
   ggplot(aes(x=Month_Name, y=Total_Goals)) + 
     geom_bar(stat="identity") +
-    labs(title = "Goals Scored by Home Teams", x= "Month", y = "Goals by Home Team")
+    labs(title = "Goals Scored by Home Teams", x= "Month", y = "Goals by Home Team") +
+  scale_x_discrete(expand = expansion(add = 0.5)) + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```

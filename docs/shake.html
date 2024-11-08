@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-10-02">
 <meta name="description" content="Analysis of Data from Shakespeare’s Plays by the Web’s first edition of the Complete Works of William Shakespeare https://shakespeare.mit.edu">
 
-<title>Project 2 – ameyateli.github.io</title>
+<title>Shakespeare Textual Analysis – ameyateli.github.io</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,7 +131,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./shake.html" aria-current="page"> 
-<span class="menu-text">Project 2</span></a>
+<span class="menu-text">Shakespeare Text Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./simstudy.html"> 
+<span class="menu-text">Simulation Study</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -167,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project 2</h1>
+<h1 class="title">Shakespeare Textual Analysis</h1>
 </div>
 
 <div>
@@ -204,11 +208,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This my textual analysis of Shakespeare dialogue in his tragedy “Romeo and Juliet”.</p>
 <p>This data was curated by <a href="https://github.com/nrennie">Nicola Rennie</a> from <a href="https://shakespeare.mit.edu">The Complete Works of William Shakespeare</a> the Web’s first edition of the Complete Works of William Shakespeare.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2024</span>, <span class="at">week =</span> <span class="dv">38</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>hamlet <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>hamlet</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>macbeth</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>romeo_juliet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>hamlet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/hamlet.csv'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/macbeth.csv'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>How much is death mentioned in Romeo and Juliet?</p>
 <div class="cell">
