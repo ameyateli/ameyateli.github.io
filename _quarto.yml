@@ -8,12 +8,12 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: sqlproject.qmd
+        text: "SQL Project"
       - href: shake.qmd
         text: "Shakespeare Text Analysis"
       - href: simstudy.qmd
         text: "Simulation Study"
-      - href: sqlproject.qmd
-        text: "SQL Project"
       - text: "Data Viz"
         menu:
           - href: epl.qmd
