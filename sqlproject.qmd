@@ -1,0 +1,173 @@
+---
+title: "SQL Project"
+description: Using SQL to build a data set and graph in R.
+author: Ameya Teli
+date: November 24, 2024
+format: html
+execute: 
+  warning: false
+  message: false
+---
+This data comes from the WAI-Database. (https://www.science.smith.edu/wai-database/home/about/) 
+
+The goal of this project is to: 
+(1) Recreate Figure 1 from [Voss (2020)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7093226/)
+(2) Create my own graph that groups by a demographic variable in a particular study rather than all absorbances by study (for this project I will use sex)
+
+```{r}
+library(dplyr)
+library(dbplyr)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+library(RMariaDB)
+library(DBI)
+con_wai <- dbConnect(
+  MariaDB(), 
+  host = "scidb.smith.edu",
+  user = "waiuser", 
+  password = "smith_waiDB", 
+  dbname = "wai"
+)
+Measurements <- tbl(con_wai, "Measurements")
+PI_Info <- tbl(con_wai, "PI_Info")
+Subjects <- tbl(con_wai, "Subjects")
+```
+
+```{sql connection = con_wai}
+# collect(Measurements)
+SHOW TABLES;
+```
+```{sql connection = con_wai}
+DESCRIBE Measurements;
+```
+```{sql connection = con_wai}
+SELECT *
+FROM Measurements
+LIMIT 0, 5;
+```
+This data shows that each study recorded absorbance of each subject many many times. 
+
+To recreate Figure 1 from [Voss (2020)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7093226/) we must find the mean absorbance for each ear in each study, then plot it against the frequency. 
+So I have to group the data by the study and  frequency.
+
+```{sql}
+#| connection: con_wai
+#| output.var: "table_one"
+SELECT 
+  Identifier, 
+  Frequency, 
+  AVG(Absorbance) AS Mean_Absorbance
+FROM Measurements 
+WHERE Identifier IN (
+"Abur_2014", "Feeney_2017", "Groon_2015", "Lewis_2015", "Liu_2008", "Rosowski_2012", "Shahnaz_2006", "Shaver_2013", "Sun_2016", "Voss_1994", "Voss_2010", "Werner_2010"
+) 
+AND Absorbance >= 0
+AND Frequency BETWEEN 200 AND 8000
+GROUP BY Identifier, Frequency
+```   
+
+The table that has the information to add to the legend such as the author list and year is PI_Into. 
+
+This code creates a data frame with the information we need for the legend, including the Authors, the year, and the instrument used in the study from PI_Info. Then it is joined with Measurements using LEFT JOIN because we want all the ear entries to have an associated legend entry.  
+```{sql}
+#| connection: con_wai
+#| output.var: legend
+
+SELECT 
+AuthorsShortList, 
+Year, 
+Measurements.Instrument, 
+COUNT(DISTINCT SubjectNumber, Ear) AS Unique_Ears, 
+PI_Info.Identifier
+FROM PI_Info
+LEFT JOIN Measurements ON PI_Info.Identifier = Measurements.Identifier
+WHERE PI_Info.Identifier IN (
+"Abur_2014", "Feeney_2017", "Groon_2015", "Lewis_2015", "Liu_2008", "Rosowski_2012", "Shahnaz_2006", "Shaver_2013", "Sun_2016", "Voss_1994", "Voss_2010", "Werner_2010"
+) 
+GROUP BY PI_Info.Identifier, Instrument
+```
+
+Here I create a new data frame from joining table_one and legend to add the data from legend that we was not present in our initial filtering of table_one. Furthermore, the graph by Voss, instead of having entries with "other" for the Instrument it has "not commercial system", so I replaced those. The last mutate is to create the legend entries like that of the original graph. 
+
+```{r}
+
+graph_data <- table_one |>
+  left_join(legend, by = c("Identifier" = "Identifier")) |>
+    mutate(Instrument = ifelse(Instrument == "Other", "not commercial system", Instrument)) |>
+  mutate(name = paste0(AuthorsShortList, "(", Year, ") ","N=", Unique_Ears, "; ", Instrument)) 
+
+```
+
+Here I create the graph using ggplot using color = name to make each name have a different associated color rather than study allowing it to be in the legend. 
+```{r}
+graph_data |>
+  ggplot(aes(
+      x = Frequency, 
+      y = Mean_Absorbance, 
+      color = name)) + 
+  geom_line(size = 0.5) +
+  theme_minimal() + 
+  theme(
+    legend.position = "right",legend.key.size = unit(0.1, 'cm') 
+  ) + 
+  labs(
+    x = "Frequency (Hz)", 
+    y = "Mean Absorbance", 
+    title = "Mean absorbance from each publication in WAI database") + 
+  ylim(0,1) + 
+  scale_x_log10()
+```
+This graph is meant to be a recreation of the one by Voss. It shows that as frequency increases and is around 3000 Hz, the mean absorbence of most participants was at its peak. So from the participants in these studies, the best absorption their ears were able to do was at this frequency. Also very quicly after this there is a steep drop in the graph, which may indicate that after this ideal frequency of 3000 Hz it is harder for ears to absorb. 
+
+Part 2 of this project explores specifically the study done by Lewis and Neely in 2015. In their study they track sex as a variable. The goal of this section is to create a graph like the one above, but instead of having a line for each study, have a line for each gender in this specific study. 
+
+```{sql}
+#| connection: con_wai 
+SELECT * 
+FROM Subjects
+WHERE Identifier = "Lewis_2015"
+LIMIT 0, 10
+```
+
+For this next visualizations I will focus on specifically Lewis_2015, which has data on the gender of it's participants. 
+
+To do this I first create a new data frame table_two which is all the frequencies and mean absorbances for the Lewis_2015 study joined with Measurements to obtain the Mean_Absorbance for each frequency as observed in part 1, however, this section adds the additional group of "Sex". 
+```{sql}
+#| connection: con_wai
+#| output.var: "table_two"
+SELECT 
+  Measurements.Identifier, 
+  Frequency, 
+  AVG(Absorbance) AS Mean_Absorbance, 
+  Sex, 
+  AuthorsShortList
+FROM Measurements 
+JOIN PI_Info ON Measurements.Identifier = PI_Info.Identifier
+JOIN Subjects ON Subjects.SubjectNumber = Measurements.SubjectNumber 
+WHERE Measurements.Identifier = "Lewis_2015" 
+AND Absorbance >= 0
+AND Frequency BETWEEN 200 AND 8000
+GROUP BY Sex, Identifier, Frequency
+
+```
+
+Using this data frame I can use ggplot to plot the data. 
+```{r}
+
+table_two |>
+ggplot(
+  aes(
+    x = Frequency, 
+    y = Mean_Absorbance, 
+    color = Sex)) + 
+  geom_line() + 
+  labs(title = "Mean Absorbance vs. Frequency based on gender in Lewis and Neely's 2015 study", y = "Mean Absorbance", x = "Frequency (Hz)")
+  
+```
+This graph has three different colored lines. One for female, male and unknown (possibly all the participants whose genders were not recorded). This graph shows that all three of the sexes have similar Mean Absorbances at frequencies. However, it appears that the unknown gender has much more fluctuations than the other two. This could be due to the mixture of genders that are in this group, or that it may be larger than the others. Zooming into the female and male lines, we can see that the male line is generally above the female line from 1000 Hz to 6000 Hz. However, at most other points the lines are almost identical.  
+
+
+
