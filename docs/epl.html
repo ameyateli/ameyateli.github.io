@@ -292,7 +292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significance number of goals for a smaller amount of games it wouldn’t show up as significant on this type of graph.</p>
-<p>This leads me to do a graph that calculates the total goals per game for the home team over the months to compare percentages rather than comparing the total raw sum.</p>
+<p>This leads me to do a graph that calculates the total goals per game for the home team over the months to compare rather than comparing the total raw sum.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> soccer_grouped <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">goals_per_game =</span> Total_Goals<span class="sc">/</span>num_games) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

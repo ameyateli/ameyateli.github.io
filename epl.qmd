@@ -30,7 +30,7 @@ head(soccer)
 ```
 
 
-Because the date column in the data set was in day/month/year format and I wanted to group the data in buckets of month in a histogram I created a new data frame called soccer_month which had a new column of month. After converting the date column into a date variable, I extracted the month part of the variable using the function 'format'. 
+Because the date column in the data set was in day/month/year format and I wanted to group the data in months in a bar chart I created a new data frame called soccer_month which had a new column of month. After converting the date column into a date variable, I extracted the month part of the variable using the function 'format'. 
 ```{r}
 
 soccer_month <- soccer |>
@@ -79,7 +79,7 @@ soccer_grouped |>
 
 This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significance number of goals for a smaller amount of games it wouldn't show up as significant on this type of graph. 
 
-This leads me to do a graph that calculates the total goals per game for the home team over the months to compare rather than comparing the total raw sum.
+This led me to create a graph that calculates the total goals per game for the home team over the months to compare rather than comparing the total raw sum.
 
 ```{r}
 soccer_grouped <- soccer_grouped |>

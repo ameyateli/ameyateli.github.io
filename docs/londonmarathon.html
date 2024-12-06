@@ -211,13 +211,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>This data comes from <a href="https://github.com/nrennie">Nicola Rennie’s</a> <a href="https://github.com/nrennie/LondonMarathon">LondonMarathon R Package</a> containing two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data. Rennie a self proclaimed “enjoyer of endurance races” curated this data set.</p>
 <p>This data was especially interesting to me as a long distance runner, I hope to one day run a marathon. This data comes from London Marathon data about runners accepted into the race. This is dependent on a <a href="https://blog.irace.ai/london-marathon-qualifying-times">few factors</a>: qualifying times (sometimes based on age groups), ballot entry (a lottery entry), running for charity, and many others. Potentially these modes of entry were added as years go by, a reason for the increased accepted runners, or maybe simply marathons have grown in popularity.</p>
+<p>Below you can see the code and data visualizations of number of accepted runners to the London Marathon from the first year it was established in 1980 to 2020.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>winners <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/winners.csv'</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>london_marathon <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/london_marathon.csv'</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> london_marathon, <span class="fu">aes</span>(<span class="at">x=</span>Year, <span class="at">y=</span>Accepted)) <span class="sc">+</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span><span class="st">"Number of Accepted Runners vs Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span><span class="st">"Number of Accepted Runners to the London Marathon vs Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -228,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The x-axis shows the years of the London Marathon from 1980 to 2020. The y-axis shows the number of accepted runners for that respective year.</p>
 <p>From this graph we can see that there is a general positive correlation between the two variables, with the number of runners generally increasing from year to year.</p>
-<p>One notable thing about this graph is the year 2020, which had 0 accepted runners. Due to COVID-19, the 40th annual London Marathon was <a href="https://en.wikipedia.org/wiki/2020_London_Marathon#:~:text=The%202020%20London%20Marathon%20was,mass%20participation%20event%20was%20cancelled.">cancelled</a> for mass participation. They still, however, had the elite section (a race for professional runners - like Brigid Kosegei who won the women’s elite event) of the race which is not a part of this data for “accepted runners”.</p>
+<p>One notable thing about this graph is the year 2020, which had 0 accepted runners. Due to COVID-19, the 40th annual London Marathon was <a href="https://en.wikipedia.org/wiki/2020_London_Marathon#:~:text=The%202020%20London%20Marathon%20was,mass%20participation%20event%20was%20cancelled.">cancelled</a> for mass participation. They still, however, had the elite section (a race for professional runners - like Brigid Kosegei who won the women’s elite section) of the race which is not a part of this data for “accepted runners”.</p>
 
 
 
