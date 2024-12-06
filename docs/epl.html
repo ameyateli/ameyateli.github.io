@@ -8,7 +8,7 @@
 
 <meta name="author" content="Ameya Teli">
 <meta name="dcterms.date" content="2024-09-18">
-<meta name="description" content="Analysis of Premier League data from TidyTuesday!">
+<meta name="description" content="Analysis of Goals Scored by Home Teams for each month of the English Premier League in 2021-2022.">
 
 <title>Premier League 2021-2022 – ameyateli.github.io</title>
 <style>
@@ -130,6 +130,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./sqlproject.html"> 
+<span class="menu-text">SQL Project</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./shake.html"> 
 <span class="menu-text">Shakespeare Text Analysis</span></a>
   </li>  
@@ -176,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Analysis of Premier League data from TidyTuesday!
+    Analysis of Goals Scored by Home Teams for each month of the English Premier League in 2021-2022.
   </div>
 </div>
 
@@ -205,77 +209,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Analysis of Goals Scored by Home Teams for each month of the Premier League in 2021-2022.</p>
-<p>This data comes from <a href="https://www.kaggle.com/datasets/evangower/premier-league-match-data">Premier League Match Data 2021-2022</a> from <a href="https://github.com/evangower">Evan Gower</a>.</p>
+<p>Analysis of Goals Scored by Home Teams for each month of the English Premier League in 2021-2022.</p>
+<p>This data comes from <a href="https://www.kaggle.com/datasets/evangower/premier-league-match-data">Premier League Match Data 2021-2022</a> via <a href="https://github.com/evangower">Evan Gower</a>. Gower collected this data from the official website of the <a href="https://www.premierleague.com">Premier League</a> then was cleaned using google sheets.</p>
+<p>My mom grew up in Manchester, England and her entire family are avid supporters of one of the two teams based in Manchester: <a href="https://www.manutd.com">Manchester United</a>. Manchester United and many other professional soccer clubs in the United Kingdom play in a league called the English Premier League (often referred to as just the Premier League or the EPL).</p>
+<p>The EPL has many devoted fans, an American equivalent could be something like the NFL (in terms of their fan base). Many fans may have superstitions such as what they wear, what they’re doing during the game, and many others. However, a large variable that may affect the way that teams play is whether or not they play their game at home. This could be due to having a so-called “home field advantage”, being on the field that they practice on (sometimes), or maybe because there are more fans there supporting them. This second reason may not be a large factor in their performance because of how many fans each EPL team has, often spread throughout the country. However, it is more likely that the fans who support a team live nearby, as the team can be a sort of emblem of the city.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>soccer <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv'</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>soccer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>soccer <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(soccer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 380 × 22
-   Date      HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee    HS
-   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
- 1 13/08/20… Brentfo… Arsenal      2     0 H         1     0 H     M Oliv…     8
- 2 14/08/20… Man Uni… Leeds        5     1 H         1     0 H     P Tier…    16
- 3 14/08/20… Burnley  Brighton     1     2 A         1     0 H     D Coote    14
- 4 14/08/20… Chelsea  Crystal…     3     0 H         2     0 H     J Moss     13
- 5 14/08/20… Everton  Southam…     3     1 H         0     1 A     A Madl…    14
- 6 14/08/20… Leicest… Wolves       1     0 H         1     0 H     C Paws…     9
- 7 14/08/20… Watford  Aston V…     3     2 H         2     0 H     M Dean     13
- 8 14/08/20… Norwich  Liverpo…     0     3 A         0     1 A     A Marr…    14
- 9 15/08/20… Newcast… West Ham     2     4 A         2     1 H     M Atki…    17
-10 15/08/20… Tottenh… Man City     1     0 H         0     0 D     A Tayl…    13
-# ℹ 370 more rows
+<pre><code># A tibble: 6 × 22
+  Date       HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee    HS
+  &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+1 13/08/2021 Brentfo… Arsenal      2     0 H         1     0 H     M Oliv…     8
+2 14/08/2021 Man Uni… Leeds        5     1 H         1     0 H     P Tier…    16
+3 14/08/2021 Burnley  Brighton     1     2 A         1     0 H     D Coote    14
+4 14/08/2021 Chelsea  Crystal…     3     0 H         2     0 H     J Moss     13
+5 14/08/2021 Everton  Southam…     3     1 H         0     1 A     A Madl…    14
+6 14/08/2021 Leicest… Wolves       1     0 H         1     0 H     C Paws…     9
 # ℹ 11 more variables: AS &lt;dbl&gt;, HST &lt;dbl&gt;, AST &lt;dbl&gt;, HF &lt;dbl&gt;, AF &lt;dbl&gt;,
 #   HC &lt;dbl&gt;, AC &lt;dbl&gt;, HY &lt;dbl&gt;, AY &lt;dbl&gt;, HR &lt;dbl&gt;, AR &lt;dbl&gt;</code></pre>
 </div>
+</div>
+<p>Because the date column in the data set was in day/month/year format and I wanted to group the data in buckets of month in a histogram I created a new data frame called soccer_month which had a new column of month. After converting the date column into a date variable, I extracted the month part of the variable using the function ‘format’.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>soccer_month <span class="ot">&lt;-</span> soccer <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">format</span>(<span class="fu">as.Date</span>(Date,<span class="at">format=</span><span class="st">"%d/%m/%Y"</span>),<span class="st">"%m"</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>soccer_month</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(soccer_month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 380 × 23
-   Date      HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee    HS
-   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
- 1 13/08/20… Brentfo… Arsenal      2     0 H         1     0 H     M Oliv…     8
- 2 14/08/20… Man Uni… Leeds        5     1 H         1     0 H     P Tier…    16
- 3 14/08/20… Burnley  Brighton     1     2 A         1     0 H     D Coote    14
- 4 14/08/20… Chelsea  Crystal…     3     0 H         2     0 H     J Moss     13
- 5 14/08/20… Everton  Southam…     3     1 H         0     1 A     A Madl…    14
- 6 14/08/20… Leicest… Wolves       1     0 H         1     0 H     C Paws…     9
- 7 14/08/20… Watford  Aston V…     3     2 H         2     0 H     M Dean     13
- 8 14/08/20… Norwich  Liverpo…     0     3 A         0     1 A     A Marr…    14
- 9 15/08/20… Newcast… West Ham     2     4 A         2     1 H     M Atki…    17
-10 15/08/20… Tottenh… Man City     1     0 H         0     0 D     A Tayl…    13
-# ℹ 370 more rows
+<pre><code># A tibble: 6 × 23
+  Date       HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee    HS
+  &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+1 13/08/2021 Brentfo… Arsenal      2     0 H         1     0 H     M Oliv…     8
+2 14/08/2021 Man Uni… Leeds        5     1 H         1     0 H     P Tier…    16
+3 14/08/2021 Burnley  Brighton     1     2 A         1     0 H     D Coote    14
+4 14/08/2021 Chelsea  Crystal…     3     0 H         2     0 H     J Moss     13
+5 14/08/2021 Everton  Southam…     3     1 H         0     1 A     A Madl…    14
+6 14/08/2021 Leicest… Wolves       1     0 H         1     0 H     C Paws…     9
 # ℹ 12 more variables: AS &lt;dbl&gt;, HST &lt;dbl&gt;, AST &lt;dbl&gt;, HF &lt;dbl&gt;, AF &lt;dbl&gt;,
 #   HC &lt;dbl&gt;, AC &lt;dbl&gt;, HY &lt;dbl&gt;, AY &lt;dbl&gt;, HR &lt;dbl&gt;, AR &lt;dbl&gt;, Month &lt;chr&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> soccer_month <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Total_Goals =</span> <span class="fu">sum</span>(FTHG)) </span>
+</div>
+<p>This code converts the number for the month into the month name using the function month.name.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>months_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">month =</span> <span class="fu">c</span>(<span class="st">"August"</span>, <span class="st">"September"</span>, <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span>, <span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>, <span class="st">"May"</span>), </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> <span class="fu">mutate</span>(soccer_grouped, <span class="at">Month_Name =</span> month.name[<span class="fu">as.numeric</span>(Month)])</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Month_Name, <span class="at">y=</span>Total_Goals)) <span class="sc">+</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Goals Scored by Home Teams"</span>, <span class="at">x=</span> <span class="st">"Month"</span>, <span class="at">y =</span> <span class="st">"Goals by Home Team"</span>) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)) <span class="sc">+</span> </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> soccer_month <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Total_Goals =</span> <span class="fu">sum</span>(FTHG), <span class="at">num_games =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month_num =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month_Name =</span> month.name[<span class="fu">as.numeric</span>(Month)]) <span class="sc">|&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">month_faceted =</span> <span class="fu">factor</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      Month_Name, </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"August"</span>, <span class="st">"September"</span>, <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span>, <span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>, <span class="st">"May"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(month_faceted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The below data visualization shows the number of goals scored by home teams over the course of the season. It is important to note that the EPL season usually runs from August to May. Hence why the factor variable month_faceted was created and is used on the x-axis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>month_faceted, <span class="at">y=</span>Total_Goals)) <span class="sc">+</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Goals Scored by Home Teams in the EPL"</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span> <span class="st">"Month"</span>, </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Goals by Home Team"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="epl_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="epl_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significance number of goals for a smaller amount of games it wouldn’t show up as significant on this type of graph.</p>
+<p>This leads me to do a graph that calculates the total goals per game for the home team over the months to compare percentages rather than comparing the total raw sum.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> soccer_grouped <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">goals_per_game =</span> Total_Goals<span class="sc">/</span>num_games) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> month_faceted, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> goals_per_game</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Goals Scored per Game by Home Teams in the EPL"</span>, </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span> <span class="st">"Month"</span>, </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Goals Scored Per Game"</span>) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epl_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This chart shows a much more even distribution of goals scored per game in each month unlike the first which had a much greater difference between a few of the months.</p>
+<p>It would be helpful to add another chart which explores the goals scored by away teams over the course of the season to understand if there is a difference, and if the part of the season impacts the scoring capabilities of each team.</p>
 
 
 

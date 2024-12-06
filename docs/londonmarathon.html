@@ -8,7 +8,7 @@
 
 <meta name="author" content="Ameya Teli">
 <meta name="dcterms.date" content="2024-09-18">
-<meta name="description" content="Analysis of London Marathon data from TidyTuesday">
+<meta name="description" content="Analysis of London Marathon data from Nicola Rennie’s LondonMarathon R Package">
 
 <title>London Marathon – ameyateli.github.io</title>
 <style>
@@ -130,6 +130,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./sqlproject.html"> 
+<span class="menu-text">SQL Project</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./shake.html"> 
 <span class="menu-text">Shakespeare Text Analysis</span></a>
   </li>  
@@ -176,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Analysis of London Marathon data from TidyTuesday
+    Analysis of London Marathon data from Nicola Rennie’s LondonMarathon R Package
   </div>
 </div>
 
@@ -205,7 +209,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This data comes from Nicola Rennie’s <a href="https://github.com/nrennie/LondonMarathon">LondonMarathon R Package</a> contining two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data.</p>
+<p>This data comes from <a href="https://github.com/nrennie">Nicola Rennie’s</a> <a href="https://github.com/nrennie/LondonMarathon">LondonMarathon R Package</a> containing two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data. Rennie a self proclaimed “enjoyer of endurance races” curated this data set.</p>
+<p>This data was especially interesting to me as a long distance runner, I hope to one day run a marathon. This data comes from London Marathon data about runners accepted into the race. This is dependent on a <a href="https://blog.irace.ai/london-marathon-qualifying-times">few factors</a>: qualifying times (sometimes based on age groups), ballot entry (a lottery entry), running for charity, and many others. Potentially these modes of entry were added as years go by, a reason for the increased accepted runners, or maybe simply marathons have grown in popularity.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>winners <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/winners.csv'</span>)</span>
@@ -221,6 +226,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>The x-axis shows the years of the London Marathon from 1980 to 2020. The y-axis shows the number of accepted runners for that respective year.</p>
+<p>From this graph we can see that there is a general positive correlation between the two variables, with the number of runners generally increasing from year to year.</p>
+<p>One notable thing about this graph is the year 2020, which had 0 accepted runners. Due to COVID-19, the 40th annual London Marathon was <a href="https://en.wikipedia.org/wiki/2020_London_Marathon#:~:text=The%202020%20London%20Marathon%20was,mass%20participation%20event%20was%20cancelled.">cancelled</a> for mass participation. They still, however, had the elite section (a race for professional runners - like Brigid Kosegei who won the women’s elite event) of the race which is not a part of this data for “accepted runners”.</p>
 
 
 

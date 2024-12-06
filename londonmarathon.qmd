@@ -1,7 +1,7 @@
 ---
 title: "London Marathon"
 description:
-  Analysis of London Marathon data from TidyTuesday 
+  Analysis of London Marathon data from Nicola Rennie's LondonMarathon R Package 
 author: Ameya Teli
 date: September 18, 2024
 format: html
@@ -10,7 +10,12 @@ execute:
   message: false
 ---
 
-This data comes from Nicola Rennie's [LondonMarathon R Package](https://github.com/nrennie/LondonMarathon) contining two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data.
+This data comes from [Nicola Rennie's](https://github.com/nrennie) [LondonMarathon R Package](https://github.com/nrennie/LondonMarathon) containing two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data. Rennie a self proclaimed "enjoyer of endurance races" curated this data set. 
+
+This data was especially interesting to me as a long distance runner, I hope to one day run a marathon. This data comes from London Marathon data about runners accepted into the race. This is dependent on a [few factors](https://blog.irace.ai/london-marathon-qualifying-times): qualifying times (sometimes based on age groups), ballot entry (a lottery entry), running for charity, and many others. Potentially these modes of entry were added as years go by, a reason for the increased accepted runners, or maybe simply marathons have grown in popularity.   
+
+
+Below you can see the code and data visualizations of number of accepted runners to the London Marathon from the first year it was established in 1980 to 2020. 
 
 ```{r}
 library(ggplot2)
@@ -18,7 +23,13 @@ winners <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/ti
 london_marathon <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/london_marathon.csv')
 
 ggplot(data = london_marathon, aes(x=Year, y=Accepted)) +
-  geom_point() + labs(title ="Number of Accepted Runners vs Year")
+  geom_point() + labs(title ="Number of Accepted Runners to the London Marathon vs Year")
 
  
 ```
+
+The x-axis shows the years of the London Marathon from 1980 to 2020. The y-axis shows the number of accepted runners for that respective year. 
+
+From this graph we can see that there is a general positive correlation between the two variables, with the number of runners generally increasing from year to year. 
+
+One notable thing about this graph is the year 2020, which had 0 accepted runners. Due to COVID-19, the 40th annual London Marathon was [cancelled](https://en.wikipedia.org/wiki/2020_London_Marathon#:~:text=The%202020%20London%20Marathon%20was,mass%20participation%20event%20was%20cancelled.) for mass participation. They still, however, had the elite section (a race for professional runners - like Brigid Kosegei who won the women's elite section) of the race which is not a part of this data for "accepted runners". 

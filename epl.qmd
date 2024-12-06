@@ -1,7 +1,6 @@
 ---
 title: "Premier League 2021-2022"
-description:
-  Analysis of Premier League data from TidyTuesday! 
+description: Analysis of Goals Scored by Home Teams for each month of the English Premier League in 2021-2022.
 author: Ameya Teli
 date: September 18, 2024
 format: html
@@ -10,35 +9,101 @@ execute:
   message: false
 ---
 
-Analysis of Goals Scored by Home Teams for each month of the Premier League in 2021-2022.
+Analysis of Goals Scored by Home Teams for each month of the English Premier League in 2021-2022.
 
-This data comes from [Premier League Match Data 2021-2022](https://www.kaggle.com/datasets/evangower/premier-league-match-data) from [Evan Gower](https://github.com/evangower).
+This data comes from [Premier League Match Data 2021-2022](https://www.kaggle.com/datasets/evangower/premier-league-match-data) via [Evan Gower](https://github.com/evangower). Gower collected this data from the official website of the [Premier League](https://www.premierleague.com) then was cleaned using google sheets.  
+
+My mom grew up in Manchester, England and her entire family are avid supporters of one of the two teams based in Manchester: [Manchester United](https://www.manutd.com). Manchester United and many other professional soccer clubs in the United Kingdom play in a league called the English Premier League (often referred to as just the Premier League or the EPL).
+
+The EPL has many devoted fans, an American equivalent could be something like the NFL (in terms of their fan base). Many fans may have superstitions such as what they wear, what they're doing during the game, and many others. 
+However, a large variable that may affect the way that teams play is whether or not they play their game at home. This could be due to having a so-called "home field advantage", being on the field that they practice on (sometimes), or maybe because there are more fans there supporting them. This second reason may not be a large factor in their performance because of how many fans each EPL team has, often spread throughout the country. However, it is more likely that the fans who support a team live nearby, as the team can be a sort of emblem of the city. 
 
 ```{r}
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
 
-
 soccer <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv')
 
-soccer
+head(soccer)
+
+```
+
+
+Because the date column in the data set was in day/month/year format and I wanted to group the data in buckets of month in a histogram I created a new data frame called soccer_month which had a new column of month. After converting the date column into a date variable, I extracted the month part of the variable using the function 'format'. 
+```{r}
 
 soccer_month <- soccer |>
   mutate(Month = format(as.Date(Date,format="%d/%m/%Y"),"%m"))
 
-soccer_month
+head(soccer_month)
+
+```
+
+
+This code converts the number for the month into the month name using the function month.name. 
+
+```{r}
+months_df <- data.frame(
+  month = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"), 
+  group = c(1:10))
+
 
 soccer_grouped <- soccer_month |>
   group_by(Month) |>
-  summarize(Total_Goals = sum(FTHG)) 
+  summarize(Total_Goals = sum(FTHG), num_games = n()) |>
+  mutate(month_num = c(6,7,8,9,10,1,2,3,4,5)) |> 
+  mutate(Month_Name = month.name[as.numeric(Month)]) |>
+  mutate(
+    month_faceted = factor(
+      Month_Name, 
+      levels = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"))) |>
+  arrange(month_faceted)
 
-soccer_grouped <- mutate(soccer_grouped, Month_Name = month.name[as.numeric(Month)])
+```
+
+The below data visualization shows the number of goals scored by home teams over the course of the season. It is important to note that the EPL season usually runs from August to May. Hence why the factor variable month_faceted was created and is used on the x-axis. 
+
+```{r}
 
 soccer_grouped |>
-  ggplot(aes(x=Month_Name, y=Total_Goals)) + 
+  ggplot(aes(x=month_faceted, y=Total_Goals)) + 
     geom_bar(stat="identity") +
-    labs(title = "Goals Scored by Home Teams", x= "Month", y = "Goals by Home Team") +
-  scale_x_discrete(expand = expansion(add = 0.5)) + 
+    labs(
+      title = "Goals Scored by Home Teams in the EPL", 
+      x= "Month", 
+      y = "Goals by Home Team") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
 ```
+
+This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significance number of goals for a smaller amount of games it wouldn't show up as significant on this type of graph. 
+
+This leads me to do a graph that calculates the total goals per game for the home team over the months to compare rather than comparing the total raw sum.
+
+```{r}
+soccer_grouped <- soccer_grouped |>
+  mutate(goals_per_game = Total_Goals/num_games) 
+```
+
+```{r}
+soccer_grouped |>
+  ggplot(
+    aes(
+      x = month_faceted, 
+      y = goals_per_game
+      )
+    ) + 
+    geom_bar(stat="identity") +
+    labs(
+      title = "Goals Scored per Game by Home Teams in the EPL", 
+      x= "Month", 
+      y = "Goals Scored Per Game") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+```
+This chart shows a much more even distribution of goals scored per game in each month unlike the first which had a much greater difference between a few of the months. 
+
+It would be helpful to add another chart which explores the goals scored by away teams over the course of the season to understand if there is a difference, and if the part of the season impacts the scoring capabilities of each team. 
+
+
