@@ -22,6 +22,7 @@ However, a large variable that may affect the way that teams play is whether or 
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
+library(knitr)
 
 soccer <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv')
 
@@ -77,7 +78,7 @@ soccer_grouped |>
 
 ```
 
-This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significance number of goals for a smaller amount of games it wouldn't show up as significant on this type of graph. 
+This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significant number of goals for a smaller amount of games it wouldn't show up as significant on this type of graph. 
 
 This led me to create a graph that calculates the total goals per game for the home team over the months to compare rather than comparing the total raw sum.
 
@@ -86,7 +87,7 @@ soccer_grouped <- soccer_grouped |>
   mutate(goals_per_game = Total_Goals/num_games) 
 ```
 
-```{r}
+```{r,  fig.alt= "Bar Chart of Goals scored by home teams in the Months from August to May of the Premier League 2020 to 2021 season which shows that there is some variation in total number of goals scored per month"}
 soccer_grouped |>
   ggplot(
     aes(
@@ -106,4 +107,39 @@ This chart shows a much more even distribution of goals scored per game in each 
 
 It would be helpful to add another chart which explores the goals scored by away teams over the course of the season to understand if there is a difference, and if the part of the season impacts the scoring capabilities of each team. 
 
+We do this below by first doing the same process, this time creating a new data frame called away_grouped. 
+```{r,   fig.alt= "Bar Chart of Goals scored per game by home teams in the Months from August to May of the Premier League 2020 to 2021 season which shows that there is little to no variation in goals scored per game over the season"}
+away_grouped <- soccer_month |>
+  group_by(Month) |>
+  summarize(Total_Goals = sum(FTAG), 
+            num_games = n()) |>
+  mutate(month_num = c(6,7,8,9,10,1,2,3,4,5)) |> 
+  mutate(Month_Name = month.name[as.numeric(Month)]) |>
+  mutate(
+    month_faceted = factor(
+      Month_Name, 
+      levels = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"))) |>
+  arrange(month_faceted) |> 
+  mutate(goals_per_game = Total_Goals/num_games)
+
+```
+
+Now we can plot the same graph of goals per month of away teams. 
+```{r,   fig.alt= "Bar Chart of Goals scored per game by away teams in the Months from August to May of the Premier League 2020 to 2021 season which shows that there is little to no variation in goals scored per game over the season"}
+away_grouped |>
+  ggplot(
+    aes(
+      x = month_faceted, 
+      y = goals_per_game
+      )
+    ) + 
+    geom_bar(stat="identity") +
+    labs(
+      title = "Goals Scored per Game by Away Teams in the EPL", 
+      x= "Month", 
+      y = "Goals Scored Per Game") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+```
+
+This graph shows that there is a bit more variation in terms of goals per game for away teams in comparison of the variation of goals per game for home teams. 
 

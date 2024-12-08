@@ -11,6 +11,7 @@ about:
       href: https://github.com/ameyateli
     - text: Email
       href: mailto:ameya.teli@gmail.com
+
 ---
 
 Welcome! My name is Ameya Teli and I am a student at Pomona College graduating in 2027. I plan on majoring in Mathematics on the statistic track with a minor in Data Science.

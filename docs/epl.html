@@ -217,10 +217,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>soccer <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv'</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(soccer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>soccer <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(soccer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 22
   Date       HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee    HS
@@ -235,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   HC &lt;dbl&gt;, AC &lt;dbl&gt;, HY &lt;dbl&gt;, AY &lt;dbl&gt;, HR &lt;dbl&gt;, AR &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>Because the date column in the data set was in day/month/year format and I wanted to group the data in buckets of month in a histogram I created a new data frame called soccer_month which had a new column of month. After converting the date column into a date variable, I extracted the month part of the variable using the function ‘format’.</p>
+<p>Because the date column in the data set was in day/month/year format and I wanted to group the data in months in a bar chart I created a new data frame called soccer_month which had a new column of month. After converting the date column into a date variable, I extracted the month part of the variable using the function ‘format’.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>soccer_month <span class="ot">&lt;-</span> soccer <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">format</span>(<span class="fu">as.Date</span>(Date,<span class="at">format=</span><span class="st">"%d/%m/%Y"</span>),<span class="st">"%m"</span>))</span>
@@ -291,8 +292,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significance number of goals for a smaller amount of games it wouldn’t show up as significant on this type of graph.</p>
-<p>This leads me to do a graph that calculates the total goals per game for the home team over the months to compare rather than comparing the total raw sum.</p>
+<p>This graph shows that for the 2021-2022 season of the EPL the amount of goals scored by home teams fluctuated. It appears to be the highest in December and at lower levels in September, January, and March. Furthermore, this chart shows a count of goals scored, so if there was a month with less games, it would be expected for there to be less goals because there is less opportunities to score. Also, if there was a significant number of goals for a smaller amount of games it wouldn’t show up as significant on this type of graph.</p>
+<p>This led me to create a graph that calculates the total goals per game for the home team over the months to compare rather than comparing the total raw sum.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>soccer_grouped <span class="ot">&lt;-</span> soccer_grouped <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">goals_per_game =</span> Total_Goals<span class="sc">/</span>num_games) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -314,13 +315,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="epl_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="epl_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" alt="Bar Chart of Goals scored by home teams in the Months from August to May of the Premier League 2020 to 2021 season which shows that there is some variation in total number of goals scored per month" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>This chart shows a much more even distribution of goals scored per game in each month unlike the first which had a much greater difference between a few of the months.</p>
 <p>It would be helpful to add another chart which explores the goals scored by away teams over the course of the season to understand if there is a difference, and if the part of the season impacts the scoring capabilities of each team.</p>
+<p>We do this below by first doing the same process, this time creating a new data frame called away_grouped.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>away_grouped <span class="ot">&lt;-</span> soccer_month <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Total_Goals =</span> <span class="fu">sum</span>(FTAG), </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">num_games =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month_num =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month_Name =</span> month.name[<span class="fu">as.numeric</span>(Month)]) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">month_faceted =</span> <span class="fu">factor</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      Month_Name, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"August"</span>, <span class="st">"September"</span>, <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span>, <span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>, <span class="st">"May"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(month_faceted) <span class="sc">|&gt;</span> </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">goals_per_game =</span> Total_Goals<span class="sc">/</span>num_games)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can plot the same graph of goals per month of away teams.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>away_grouped <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> month_faceted, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> goals_per_game</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Goals Scored per Game by Away Teams in the EPL"</span>, </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span> <span class="st">"Month"</span>, </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Goals Scored Per Game"</span>) <span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epl_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" alt="Bar Chart of Goals scored per game by away teams in the Months from August to May of the Premier League 2020 to 2021 season which shows that there is little to no variation in goals scored per game over the season" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This graph shows that there is a bit more variation in terms of goals per game for away teams in comparison of the variation of goals per game for home teams.</p>
 
 
 

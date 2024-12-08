@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  
+server: 
+  shiny: true
 
 website:
   title: "ameyateli.github.io"
