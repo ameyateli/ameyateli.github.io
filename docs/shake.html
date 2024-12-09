@@ -156,6 +156,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./slideshow.html"> 
+<span class="menu-text">Overview of DS002 Projects</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -217,12 +221,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This my textual analysis of Shakespeare dialogue in his tragedy “Romeo and Juliet”.</p>
+<p>Textual analysis of Shakespeare dialogue in his tragedy “Romeo and Juliet”.</p>
 <p>This data was curated by <a href="https://github.com/nrennie">Nicola Rennie</a> from <a href="https://shakespeare.mit.edu">The Complete Works of William Shakespeare</a> the Web’s first edition of the Complete Works of William Shakespeare.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>hamlet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/hamlet.csv'</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/macbeth.csv'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="how-much-is-death-mentioned-in-romeo-and-juliet" class="level3">
 <h3 class="anchored" data-anchor-id="how-much-is-death-mentioned-in-romeo-and-juliet">How much is death mentioned in Romeo and Juliet?</h3>
@@ -253,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This next bar plot will look at which act has the most mentions of death using the data frame we created called deathrj for the first graph.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>act_num <span class="ot">&lt;-</span> deathrj <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act =</span> <span class="fu">str_extract</span>(act, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act =</span> <span class="fu">str_extract</span>(act, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  <span class="co">#extracting only the act number and not the words "Act" in front of it </span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(act_num, <span class="fu">aes</span>(<span class="at">x =</span> act)) <span class="sc">+</span> </span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
@@ -266,7 +268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in Act 3 is interesting. Maybe there is some foreshadowing happening here or something else significant which we can look through in the next plot.</p>
+<p>Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in Act 3 is interesting. There may be some foreshadowing happening here or something else significant, such as the death of a different character, which we can look through in the next plot.</p>
 </section>
 <section id="punctuation" class="level3">
 <h3 class="anchored" data-anchor-id="punctuation">Punctuation</h3>
@@ -274,8 +276,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num <span class="ot">&lt;-</span> act_num <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(act <span class="sc">==</span> <span class="st">"III"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">strong_punctuation =</span> <span class="fu">str_detect</span>(dialogue, <span class="st">"!+|</span><span class="sc">\\</span><span class="st">?+"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scene =</span> <span class="fu">str_extract</span>(scene, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">strong_punctuation =</span> <span class="fu">str_detect</span>(dialogue, <span class="st">"!+|</span><span class="sc">\\</span><span class="st">?+"</span>)) <span class="sc">|&gt;</span> <span class="co">#detecting any of those punctuation marks </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scene =</span> <span class="fu">str_extract</span>(scene, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  <span class="co">#extracting only the scene number, not the word "Scene" </span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> scene, <span class="at">fill =</span> strong_punctuation))<span class="sc">+</span></span>
@@ -306,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num <span class="ot">&lt;-</span> act_num <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(act <span class="sc">==</span> <span class="st">"III"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word_after_death =</span> <span class="fu">str_extract</span>(dialogue, <span class="st">"death</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">S+"</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word_after_death =</span> <span class="fu">str_extract</span>(dialogue, <span class="st">"death</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">S+"</span>)) <span class="co">#extracting moments when there is a word/character after death using spaces</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> word_after_death))<span class="sc">+</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>)<span class="sc">+</span></span>
@@ -366,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>capulet <span class="ot">&lt;-</span> romeo_juliet <span class="sc">|&gt;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dialogue_lower =</span> <span class="fu">str_to_lower</span>(dialogue))<span class="sc">|&gt;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(dialogue_lower, <span class="st">"capulet"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span> <span class="co"># we don't care about setting the scene with stage directions, only the dialogue </span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Family =</span> <span class="st">"Capulet"</span>)</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>capulet <span class="sc">|&gt;</span></span>

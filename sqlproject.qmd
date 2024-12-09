@@ -167,7 +167,7 @@ ggplot(
     legend.key.size = unit(0.05, 'cm'), 
     axis.text.x = element_text(size = 6), 
     legend.title = element_blank(), 
-    legend,text = element_text(size = 10),
+    legend.text = element_text(size = 6),
     panel.grid.major = element_line(color = "grey90"), 
     panel.grid.minor = element_line(color = "grey95"), 
     plot.title = element_text(size = 14, face = "bold"), 

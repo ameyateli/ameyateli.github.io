@@ -9,8 +9,7 @@ execute:
   warning: false
   message: false
 ---
-
-This my textual analysis of Shakespeare dialogue in his tragedy "Romeo and Juliet".
+Textual analysis of Shakespeare dialogue in his tragedy "Romeo and Juliet".
 
 This data was curated by [Nicola Rennie](https://github.com/nrennie) from [The Complete Works of William Shakespeare](https://shakespeare.mit.edu) the Web's first edition of the Complete Works of William Shakespeare.
 
@@ -50,7 +49,7 @@ ggplot(act_num, aes(x = act)) +
 
 ```
 
-Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in Act 3 is interesting. Maybe there is some foreshadowing happening here or something else significant which we can look through in the next plot.
+Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in Act 3 is interesting. There may be some foreshadowing happening here or something else significant, such as the death of a different character, which we can look through in the next plot.
 
 ### Punctuation
 This plot will analyze specifically dialogue in Act 3 looking for exclamations and question marks which indicate a strong emotion in the dialogue.
@@ -69,6 +68,8 @@ ggplot(filtered_act_num, aes(x = scene, fill = strong_punctuation))+
 ```
 
 This shows that there is a greater proportion of strong punctuation in Scene 5 than the rest. So potentially the strongest emotions in relation to death occur here. We will also check which scene had the most mentions of death below.
+
+### Act 3
 
 ```{r}
 ggplot(filtered_act_num, aes(x = scene)) +

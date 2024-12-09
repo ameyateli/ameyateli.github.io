@@ -1,5 +1,6 @@
 ---
-title: "Overview of DS002 Projects"
+title: "Overview of DS002 Project 2"
+description: "Shakespeare Textual Analysis: Romeo and Juliet"
 author: "Ameya Teli"
 subtitle: "December 9, 2024"
 format:
@@ -8,55 +9,124 @@ format:
     slide-number: true
     show-slide-number: all
     embed-resources: true
+    theme: serif
 execute:
   echo: true
   warning: false
   message: false
 ---
 
-## Project 1: Data Visualizations 
-For this project one of the data sets I worked with was about the London Marathon from 1980 to 2020.
- 
-* London Marathon: contains data about applicants, accepted runners, starters, finishers, and data on winners in the elite section 
-
-
-```{r, echo=FALSE}
-london_marathon <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/london_marathon.csv')
-soccer <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv')
-
-```
-
-```{r}
-head(london_marathon)
-```
-
-## London Marathon 
- 
-```{r, echo = FALSE}
-library(ggplot2)
-library(tidyverse)
-
-
-ggplot(data = london_marathon, 
-       aes(
-         x=Year, 
-         y=Accepted)
-       ) +
-  geom_point() + 
-  labs(title ="Number of Accepted Runners to the London Marathon vs Year")
-
-```
-[This is the shiny application to plot data in comparison to the number of runners accepted to the London Marathon](http://ameyateli.shinyapps.io/londonmarathon)
-
 ## Project 2: Shakespeare Textual Analysis 
 
 * This project is a textual analysis of Romeo and Juliet 
-* The word of interest for most of this analysis is "death" given that Romeo and Juliet is a tragedy 
-* 
+* It is split into a few stages, 3 of which are: 
+  1. How much is death mentioned? 
+  2. Punctuation
+  3. Act III Analysis
+  
+#### Source 
+::: {.class-name style="font-size: 50%;"}
+This data was curated by [Nicola Rennie](https://github.com/nrennie) from The Complete Works of William Shakespeare (https://shakespeare.mit.edu), the Web's first edition of the Complete Works of William Shakespeare.
+:::
 
+
+## First, The Data
 ```{r, echo=FALSE}
+romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv')
+
+head(romeo_juliet)
+```
+
+  
+# How much is death mentioned? 
+
+## Which character? 
+```{r, echo=FALSE}
+library(stringr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+deathrj <- romeo_juliet |>
+ filter(str_detect(dialogue, "death")) 
+  
+
+ggplot(deathrj, aes(x = character)) +
+  geom_bar(stat = "count") + 
+  labs(title = "Which character mentions death the most?", x = "Character") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 ```
 
 
+## Mentions in Acts
+```{r, echo=FALSE}
+act_num <- deathrj |>
+  mutate(act = str_extract(act, "(?<=\\s)\\S+")) 
 
+ggplot(act_num, aes(x = act)) + 
+  geom_bar(stat = "count") + 
+  labs(title = "Which act has most mentions of death?", x = "Act") 
+
+```
+
+## Mentions in Acts 
+* Most mentions of death in Act III and Act V
+* A few notable deaths occur here 
+* Maybe characters announce that they are going to die
+* Other's talk about their deaths 
+
+# Punctuation 
+
+## Punctuation
+* In the following plot I looked at places in the dialogue with something I called "strong punctuation" which was either "!" or "?".
+* Using regular expressions 
+  * str_detect(dialogue, "!+|\\?+")
+* Created a new column (strong_punctuation) that was either true or false 
+
+
+## Bar Chart
+```{r, echo=FALSE}
+filtered_act_num <- act_num |>
+  filter(act == "III")|>
+  mutate(strong_punctuation = str_detect(dialogue, "!+|\\?+")) |> #detecting any of those punctuation marks 
+  mutate(scene = str_extract(scene, "(?<=\\s)\\S+"))  #extracting only the scene number, not the word "Scene" 
+  
+
+ggplot(filtered_act_num, aes(x = scene, fill = strong_punctuation))+
+  geom_bar(position = "fill") + 
+  labs(title = "Proportion of strong punctuation marks across scenes", x = "Scene", y = "Proportion")
+```
+
+## Bar Chart 
+* Greater proportion of strong punctuation in Scene 5 than the rest
+* Shows the prorportion of lines of dialogue that have strong punctuation versus lines of dialogue without 
+* Stronger emotions related to the phrases that include a strong punctuation mark 
+* Important events may occur in places with stronger emotions  
+
+# Act III 
+
+## Word/Character After Death in Act III
+
+* Because Act III has the most mentions of death I wanted to look through the act to looking at the word/character after death    
+* In this act two notable characters die: Tybalt and Mercutio
+* Looking at the words/characters around the word "death" can tell us a lot about a moment 
+
+* By creating a new df called filtered_act_num, I created a column called word_after_death using:
+  * str_extract(dialogue, "death\\s*\\S+")
+  
+## Word/Character
+```{r, echo=FALSE}
+filtered_act_num <- act_num |>
+  filter(act == "III")|>
+  mutate(word_after_death = str_extract(dialogue, "death\\s*\\S+")) #extracting moments when there is a word/character after death using spaces
+
+ggplot(filtered_act_num, aes(x = word_after_death))+
+  geom_bar(stat = "count")+
+  labs(title = "Death and the Word/Character after in Act III", 
+       x = "Death + Word", 
+       y = "Count")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# Thank you! 

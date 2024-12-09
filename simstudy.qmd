@@ -16,7 +16,7 @@ Objective: See if there is a correlation between gender and being promoted from 
 
 Our null hypothesis is that gender does not affect the likelihood that men or women are promoted.
 
-#### The Data
+### The Data
 This data includes 48 observations with two variables: sex (a factor with levels female and male) and decision (a factor with levels not promoted and promoted)
 
 ```{r}
@@ -29,7 +29,7 @@ head(sex_discrimination)
 
 ```
 
-#### Summary Statistics
+### Summary Statistics
 The following code is to calculate the summary statistics for our data.
 
 ```{r}
@@ -47,7 +47,7 @@ sex_diff
 This tells us that the proportion of men promoted from the data is 0.875 whereas the proportion of women promoted from the data is approximately 0.583. 
 Also we can see that the difference in proportion between the women who were promoted and the men who were promoted is -0.2916667. 
 
-#### Null Sampling Distribution
+### Null Sampling Distribution
 
 Now we want to generate a null-sampling distribution by permuting the decision, assigning a random decision for every person from the 35 promoted and 13 not promoted individuals. 
 ```{r}
@@ -70,7 +70,7 @@ perm_stats <- map(1:5000, perm_data, data = sex_discrimination) |>
 ```
 
 
-##### Visualization
+#### Visualization
 ```{r}
 perm_stats |>
   ggplot(aes(x = perm_prop_diff)) + 
