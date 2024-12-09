@@ -23,6 +23,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -101,11 +135,11 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./shake.html"> 
-<span class="menu-text">Shakespeare Text Analysis</span></a>
+<span class="menu-text">Shakespeare Textual Analysis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./simstudy.html"> 
-<span class="menu-text">Simulation Study</span></a>
+<span class="menu-text">Permutation Test</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -179,6 +213,12 @@ ul.task-list li input[type="checkbox"] {
 <p>This data was especially interesting to me as a long distance runner, I hope to one day run a marathon. This data comes from London Marathon data about runners accepted into the race. This is dependent on a <a href="https://blog.irace.ai/london-marathon-qualifying-times">few factors</a>: qualifying times (sometimes based on age groups), ballot entry (a lottery entry), running for charity, and many others. Potentially these modes of entry were added as years go by, a reason for the increased accepted runners, or maybe simply marathons have grown in popularity.</p>
 <p>Below you can see the code and data visualizations of number of accepted runners to the London Marathon from the first year it was established in 1980 to 2020.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>winners <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/winners.csv'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>london_marathon <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/london_marathon.csv'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> london_marathon, <span class="fu">aes</span>(<span class="at">x=</span>Year, <span class="at">y=</span>Accepted)) <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span><span class="st">"Number of Accepted Runners to the London Marathon vs Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -190,11 +230,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The x-axis shows the years of the London Marathon from 1980 to 2020. The y-axis shows the number of accepted runners for that respective year.</p>
 <p>From this graph we can see that there is a general positive correlation between the two variables, with the number of runners generally increasing from year to year. One notable thing about this graph is the year 2020, which had 0 accepted runners. Due to COVID-19, the 40th annual London Marathon was <a href="https://en.wikipedia.org/wiki/2020_London_Marathon#:~:text=The%202020%20London%20Marathon%20was,mass%20participation%20event%20was%20cancelled.">cancelled</a> for mass participation. They still, however, had the elite section (a race for professional runners - like Brigid Kosegei who won the women’s elite section) of the race which is not a part of this data for “accepted runners”.</p>
 <p>Because this data has a few different variables of interest beyond simply the accepted runners. Below you can select another variable from the data set: Applicants, Starters, and Finishers and plot this against the number of accepted runners to see how these variables interact.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><iframe data-deferred-src="app67efabe1d8d1a4352fe1d28e305261f7/?w=&amp;__subapp__=1" width="100%" height="400" class="shiny-frame shiny-frame-deferred"></iframe></p>
-</div>
-</div>
+<p><a href="http://ameyateli.shinyapps.io/londonmarathon">This is the shiny application to plot data in comparison to the number of runners accepted to the London Marathon</a></p>
 <p>Above is an applet where users can plot the other data as points on the same graph that the accepted runners over the years. This is helpful to see how many people applied for example, or the amount of people who started the race in comparison to the amount of people who were accepted.</p>
 
 

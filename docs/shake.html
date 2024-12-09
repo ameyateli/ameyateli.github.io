@@ -130,12 +130,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./sqlproject.html"> 
+<span class="menu-text">SQL Project</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link active" href="./shake.html" aria-current="page"> 
-<span class="menu-text">Shakespeare Text Analysis</span></a>
+<span class="menu-text">Shakespeare Textual Analysis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./simstudy.html"> 
-<span class="menu-text">Simulation Study</span></a>
+<span class="menu-text">Permutation Test</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -163,8 +167,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#how-much-is-death-mentioned-in-romeo-and-juliet" id="toc-how-much-is-death-mentioned-in-romeo-and-juliet" class="nav-link active" data-scroll-target="#how-much-is-death-mentioned-in-romeo-and-juliet">How much is death mentioned in Romeo and Juliet?</a></li>
+  <li><a href="#punctuation" id="toc-punctuation" class="nav-link" data-scroll-target="#punctuation">Punctuation</a></li>
+  <li><a href="#rivaling-families" id="toc-rivaling-families" class="nav-link" data-scroll-target="#rivaling-families">Rivaling Families</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -212,7 +224,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/macbeth.csv'</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>How much is death mentioned in Romeo and Juliet?</p>
+<section id="how-much-is-death-mentioned-in-romeo-and-juliet" class="level3">
+<h3 class="anchored" data-anchor-id="how-much-is-death-mentioned-in-romeo-and-juliet">How much is death mentioned in Romeo and Juliet?</h3>
+<p>To find a bar plot that explains which character mentions the most I filtered through the dialogue and kept only the pieces of dialogue which contained the word “death”.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -234,24 +248,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>act_num <span class="ot">&lt;-</span> deathrj <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act =</span> <span class="fu">str_extract</span>(act, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(act_num, <span class="fu">aes</span>(<span class="at">x =</span> act)) <span class="sc">+</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which act has most mentions of death?"</span>, <span class="at">x =</span> <span class="st">"Act"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This first graph shows that Romeo has the most instances of the word “death” in his dialogue and Friar Laurence had the second most in his dialogue. This is interesting because it makes sense that Romeo says death the most as he eventually is one of those who die in this tragedy and Friar Laurence is the one to encourage this from selling a sleeping potion. As Romeo has more dialogue presumably as one of the more main characters it makes sense that he has more mentions by count versus the Apothecary who sells Romeo poison that will kill him.</p>
+<p>This next bar plot will look at which act has the most mentions of death using the data frame we created called deathrj for the first graph.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>act_num <span class="ot">&lt;-</span> deathrj <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act =</span> <span class="fu">str_extract</span>(act, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s)</span><span class="sc">\\</span><span class="st">S+"</span>))  </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(act_num, <span class="fu">aes</span>(<span class="at">x =</span> act)) <span class="sc">+</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which act has most mentions of death?"</span>, <span class="at">x =</span> <span class="st">"Act"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This first graph shows that Romeo has the most instances of the word “death” in his dialogue and Friar Laurence had the second most in his dialogue. This is interesting because it makes sense that Romeo says death the most as he eventually is one of those who die in this tragedy and Friar Laurence is the one to encourage this from selling a sleeping potion. As Romeo has more dialogue presumably as one of the more main characters it makes sense that he has more mentions by count versus the Apothecary who sells Romeo poison that will kill him.</p>
 <p>Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in Act 3 is interesting. Maybe there is some foreshadowing happening here or something else significant which we can look through in the next plot.</p>
+</section>
+<section id="punctuation" class="level3">
+<h3 class="anchored" data-anchor-id="punctuation">Punctuation</h3>
 <p>This plot will analyze specifically dialogue in Act 3 looking for exclamations and question marks which indicate a strong emotion in the dialogue.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num <span class="ot">&lt;-</span> act_num <span class="sc">|&gt;</span></span>
@@ -266,12 +284,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This shows that there is a greater proportion of strong punctuation in Scene 5 than the rest. So potentially the strongest emotions in relation to death occur here? We will also check which scene had the most mentions of death below.</p>
+<p>This shows that there is a greater proportion of strong punctuation in Scene 5 than the rest. So potentially the strongest emotions in relation to death occur here. We will also check which scene had the most mentions of death below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> scene)) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
@@ -279,12 +297,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Maybe this indicates that the mentions of death in the other scenes are less emotional and thus use less strong punctuation. We will look for the following word, symbol, or space after death, to see how they compare.</p>
+<p>This may indicate that the mentions of death in the other scenes are less emotional and thus use less strong punctuation. We will look for the following word, symbol, or space after death, to see how they compare.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num <span class="ot">&lt;-</span> act_num <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(act <span class="sc">==</span> <span class="st">"III"</span>)<span class="sc">|&gt;</span></span>
@@ -299,71 +317,100 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings.</p>
+<p>The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. However, not a complete thought as a period would indicate. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filtered_act_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 25 × 6
-   act   scene     character      dialogue          line_number word_after_death
-   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;           
- 1 III   Scene I   Mercutio       cat, to scratch …        1525 death!          
- 2 III   Scene I   Benvolio       Stand not amazed…        1560 death,          
- 3 III   Scene I   Benvolio       Cold death aside…        1590 death aside,    
- 4 III   Scene II  Juliet         Than the death-d…        1676 death-darting   
- 5 III   Scene II  Juliet         Some word there …        1739 death,          
- 6 III   Scene II  Juliet         Hath slain ten t…        1745 &lt;NA&gt;            
- 7 III   Scene II  Juliet         But with a rear-…        1752 death,          
- 8 III   Scene II  Juliet         In that word's d…        1757 death;          
- 9 III   Scene II  Juliet         And death, not R…        1768 death,          
-10 III   Scene III Friar Laurence Not body's death…        1786 death,          
-# ℹ 15 more rows</code></pre>
+<pre><code># A tibble: 6 × 6
+  act   scene    character dialogue                 line_number word_after_death
+  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;                          &lt;dbl&gt; &lt;chr&gt;           
+1 III   Scene I  Mercutio  cat, to scratch a man t…        1525 death!          
+2 III   Scene I  Benvolio  Stand not amazed: the p…        1560 death,          
+3 III   Scene I  Benvolio  Cold death aside, and w…        1590 death aside,    
+4 III   Scene II Juliet    Than the death-darting …        1676 death-darting   
+5 III   Scene II Juliet    Some word there was, wo…        1739 death,          
+6 III   Scene II Juliet    Hath slain ten thousand…        1745 &lt;NA&gt;            </code></pre>
 </div>
 </div>
 <p>Upon viewing the first few lines of this data frame we can see that “Tybalt’s death” is mentioned a great amount, so perhaps the reason death is mentioned so much in this Act is because this character actually did die.</p>
-<hr>
-<hr>
-<p>Future analysis on how family names associate with mentions of death:</p>
-<p>These next two plots analyze which characters mention the Montague’s and the Capulet’s the most - the two rivaling families within Romeo and Juliet.</p>
+</section>
+<section id="rivaling-families" class="level3">
+<h3 class="anchored" data-anchor-id="rivaling-families">Rivaling Families</h3>
+<p>Another important factor on the play is the two rivaling families, the Montague’s and the Capulet’s. The entire basis of the play is that Romeo is in love with Juliet but because they are each from the opposing family their love is forbidden. This ultimately leads to the deaths and tragedy that ensues in the play.</p>
+<p>Here is further analysis on how family names associate with mentions of death:</p>
+<p>These next two plots analyze which characters mention the Montague’s and the Capulet’s the most.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>montague <span class="ot">&lt;-</span> romeo_juliet <span class="sc">|&gt;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dialogue_lower =</span> <span class="fu">str_to_lower</span>(dialogue))<span class="sc">|&gt;</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(dialogue_lower, <span class="st">"montague"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> character)) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which character mentions the Montague family the most?"</span>, <span class="at">x =</span> <span class="st">"Character"</span>) <span class="sc">+</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Family =</span> <span class="st">"Montague"</span>) <span class="co">#this is useful for the next plot </span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>montague <span class="sc">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> character)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which character mentions the Montague family the most?"</span>, <span class="at">x =</span> <span class="st">"Character"</span>) <span class="sc">+</span> </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>capulet <span class="ot">&lt;-</span> romeo_juliet <span class="sc">|&gt;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dialogue_lower =</span> <span class="fu">str_to_lower</span>(dialogue))<span class="sc">|&gt;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(dialogue_lower, <span class="st">"capulet"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> character)) <span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which character mentions the Capulet family the most?"</span>, <span class="at">x =</span> <span class="st">"Character"</span>) <span class="sc">+</span> </span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Family =</span> <span class="st">"Capulet"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>capulet <span class="sc">|&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> character)) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Which character mentions the Capulet family the most?"</span>, <span class="at">x =</span> <span class="st">"Character"</span>) <span class="sc">+</span> </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>These two plots show that Juliet mentions the Montague family the most and Benvolio, Prince, and Romeo mention the Capulet family the most. This is interesting because Romeo and Juliet have the most dialogue presumably as they are main characters so they mention the family names the most.</p>
+<p>The previous code assigned “Montague” to the dialogue which includes the Montagues and “Capulet” to the dialogue including the Capulets. In this next plot I will create a bar plot of the number of mentions of each family in each scene. Then see if this is related to the previous plots that counted the prevalence of the word deaths.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#binding both the data frames together to be able to create a bar plot with the bars next to each other for each act </span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>montague_and_capulet <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(montague, capulet)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>montague_and_capulet_summary <span class="ot">&lt;-</span> montague_and_capulet <span class="sc">|&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(act, Family) <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">frequency =</span> <span class="fu">n</span>())</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>montague_and_capulet_summary <span class="sc">|&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> act, <span class="at">y =</span> frequency, <span class="at">fill =</span> Family)) <span class="sc">+</span> </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shake_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking back to the acts which have the most mentions of death there is not a clear correlation between these two graphs. Act III has the most mentions of death whereas this graph shows that Act I has the most prevalence of family name mentions. This could be because of the first act being the place where characters and families are established so this may not be especially telling, or conversely it could be foreshadowing for the future tragedies which are coming.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

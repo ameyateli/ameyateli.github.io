@@ -5,7 +5,6 @@ description:
 author: Ameya Teli
 date: September 18, 2024
 format: html
-runtime: shiny
 execute: 
   warning: false
   message: false
@@ -22,11 +21,18 @@ Below you can see the code and data visualizations of number of accepted runners
 library(ggplot2)
 winners <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/winners.csv')
 london_marathon <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/london_marathon.csv')
+```
 
-ggplot(data = london_marathon, aes(x=Year, y=Accepted)) +
-  geom_point() + labs(title ="Number of Accepted Runners to the London Marathon vs Year")
+```{r}
 
- 
+ggplot(data = london_marathon, 
+       aes(
+         x=Year, 
+         y=Accepted)
+       ) +
+  geom_point() + 
+  labs(title ="Number of Accepted Runners to the London Marathon vs Year")
+
 ```
 
 The x-axis shows the years of the London Marathon from 1980 to 2020. The y-axis shows the number of accepted runners for that respective year. 
@@ -36,43 +42,7 @@ One notable thing about this graph is the year 2020, which had 0 accepted runner
 
 Because this data has a few different variables of interest beyond simply the accepted runners. Below you can select another variable from the data set: Applicants, Starters, and Finishers and plot this against the number of accepted runners to see how these variables interact. 
 
-```{r}
-library(tidyverse)
-library(shiny)
-
-server <- function(input, output, session){
-  
-  output$london_plot <- renderPlot({
-
-    london_marathon|>
-    ggplot(aes(x = Year)) + 
-    geom_point(aes( y = Accepted, color = "Accepted")) +
-    geom_point(aes_string(y = input$var, color = shQuote(input$var))) + 
-      theme_minimal()
-  })
-  
-}
-
-ui <- fluidPage(
-  titlePanel("London Marathon Statistics"), 
-  tags$p("Select another variable to graph against the graph of Accepted Runners over the years", 
-         style = "font-size: 16px; color: gray; margin-top: -10px;"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("var", 
-                  "Variable:", 
-                  choices = c("Applicants", "Starters", "Finishers"))), 
-  mainPanel(
-    plotOutput("london_plot")
-  )
-  )
-)
-
-shinyApp(ui, server)
-
-```
-
-
+[This is the shiny application to plot data in comparison to the number of runners accepted to the London Marathon](http://ameyateli.shinyapps.io/londonmarathon)
 
 Above is an applet where users can plot the other data as points on the same graph that the accepted runners over the years. This is helpful to see how many people applied for example, or the amount of people who started the race in comparison to the amount of people who were accepted. 
 

@@ -15,12 +15,12 @@ This my textual analysis of Shakespeare dialogue in his tragedy "Romeo and Julie
 This data was curated by [Nicola Rennie](https://github.com/nrennie) from [The Complete Works of William Shakespeare](https://shakespeare.mit.edu) the Web's first edition of the Complete Works of William Shakespeare.
 
 ```{r}
-hamlet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/hamlet.csv')
-macbeth <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/macbeth.csv')
 romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv')
 ```
 
-How much is death mentioned in Romeo and Juliet?
+### How much is death mentioned in Romeo and Juliet?
+
+To find a bar plot that explains which character mentions the most I filtered through the dialogue and kept only the pieces of dialogue which contained the word "death".
 
 ```{r}
 library(stringr)
@@ -36,11 +36,13 @@ ggplot(deathrj, aes(x = character)) +
   geom_bar(stat = "count") + 
   labs(title = "Which character mentions death the most?", x = "Character") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+This first graph shows that Romeo has the most instances of the word "death" in his dialogue and Friar Laurence had the second most in his dialogue. This is interesting because it makes sense that Romeo says death the most as he eventually is one of those who die in this tragedy and Friar Laurence is the one to encourage this from selling a sleeping potion. As Romeo has more dialogue presumably as one of the more main characters it makes sense that he has more mentions by count versus the Apothecary who sells Romeo poison that will kill him.
 
-library(stringr)
-
+This next bar plot will look at which act has the most mentions of death using the data frame we created called deathrj for the first graph. 
+```{r}
 act_num <- deathrj |>
-  mutate(act = str_extract(act, "(?<=\\s)\\S+"))  
+  mutate(act = str_extract(act, "(?<=\\s)\\S+"))  #extracting only the act number and not the words "Act" in front of it 
   
 ggplot(act_num, aes(x = act)) + 
   geom_bar(stat = "count") + 
@@ -48,17 +50,16 @@ ggplot(act_num, aes(x = act)) +
 
 ```
 
-This first graph shows that Romeo has the most instances of the word "death" in his dialogue and Friar Laurence had the second most in his dialogue. This is interesting because it makes sense that Romeo says death the most as he eventually is one of those who die in this tragedy and Friar Laurence is the one to encourage this from selling a sleeping potion. As Romeo has more dialogue presumably as one of the more main characters it makes sense that he has more mentions by count versus the Apothecary who sells Romeo poison that will kill him.
-
 Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in Act 3 is interesting. Maybe there is some foreshadowing happening here or something else significant which we can look through in the next plot.
 
+### Punctuation
 This plot will analyze specifically dialogue in Act 3 looking for exclamations and question marks which indicate a strong emotion in the dialogue.
 
 ```{r}
 filtered_act_num <- act_num |>
   filter(act == "III")|>
-  mutate(strong_punctuation = str_detect(dialogue, "!+|\\?+")) |>
-  mutate(scene = str_extract(scene, "(?<=\\s)\\S+"))  
+  mutate(strong_punctuation = str_detect(dialogue, "!+|\\?+")) |> #detecting any of those punctuation marks 
+  mutate(scene = str_extract(scene, "(?<=\\s)\\S+"))  #extracting only the scene number, not the word "Scene" 
   
 
 ggplot(filtered_act_num, aes(x = scene, fill = strong_punctuation))+
@@ -67,7 +68,7 @@ ggplot(filtered_act_num, aes(x = scene, fill = strong_punctuation))+
 
 ```
 
-This shows that there is a greater proportion of strong punctuation in Scene 5 than the rest. So potentially the strongest emotions in relation to death occur here? We will also check which scene had the most mentions of death below.
+This shows that there is a greater proportion of strong punctuation in Scene 5 than the rest. So potentially the strongest emotions in relation to death occur here. We will also check which scene had the most mentions of death below.
 
 ```{r}
 ggplot(filtered_act_num, aes(x = scene)) +
@@ -75,12 +76,12 @@ ggplot(filtered_act_num, aes(x = scene)) +
   labs(title = "Mentions of death across scenes in Act III", x = "Scene", y = "Count")
 ```
 
-Maybe this indicates that the mentions of death in the other scenes are less emotional and thus use less strong punctuation. We will look for the following word, symbol, or space after death, to see how they compare.
+This may indicate that the mentions of death in the other scenes are less emotional and thus use less strong punctuation. We will look for the following word, symbol, or space after death, to see how they compare.
 
 ```{r}
 filtered_act_num <- act_num |>
   filter(act == "III")|>
-  mutate(word_after_death = str_extract(dialogue, "death\\s*\\S+"))
+  mutate(word_after_death = str_extract(dialogue, "death\\s*\\S+")) #extracting moments when there is a word/character after death using spaces
 
 ggplot(filtered_act_num, aes(x = word_after_death))+
   geom_bar(stat = "count")+
@@ -90,37 +91,43 @@ ggplot(filtered_act_num, aes(x = word_after_death))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings.
+The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. However, not a complete thought as a period would indicate. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings.
 
 ```{r}
-filtered_act_num
+head(filtered_act_num)
 ```
 
 Upon viewing the first few lines of this data frame we can see that "Tybalt's death" is mentioned a great amount, so perhaps the reason death is mentioned so much in this Act is because this character actually did die.
 
-------------------------------------------------------------------------
 
-------------------------------------------------------------------------
+### Rivaling Families
+Another important factor on the play is the two rivaling families, the Montague's and the Capulet's. The entire basis of the play is that Romeo is in love with Juliet but because they are each from the opposing family their love is forbidden. This ultimately leads to the deaths and tragedy that ensues in the play. 
 
-Future analysis on how family names associate with mentions of death:
+Here is further analysis on how family names associate with mentions of death:
 
-These next two plots analyze which characters mention the Montague's and the Capulet's the most - the two rivaling families within Romeo and Juliet.
+These next two plots analyze which characters mention the Montague's and the Capulet's the most.
 
 ```{r}
 
-romeo_juliet |>
+montague <- romeo_juliet |>
   mutate(dialogue_lower = str_to_lower(dialogue))|>
   filter(str_detect(dialogue_lower, "montague")) |>
   filter(character != "[stage direction]") |>
+  mutate(Family = "Montague") #this is useful for the next plot 
+
+montague |>
   ggplot(aes(x = character)) +
   geom_bar(stat = "count") + 
   labs(title = "Which character mentions the Montague family the most?", x = "Character") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
-romeo_juliet |>
+capulet <- romeo_juliet |>
   mutate(dialogue_lower = str_to_lower(dialogue))|>
   filter(str_detect(dialogue_lower, "capulet")) |>
-  filter(character != "[stage direction]") |>
+  filter(character != "[stage direction]") |> # we don't care about setting the scene with stage directions, only the dialogue 
+  mutate(Family = "Capulet")
+
+capulet |>
   ggplot(aes(x = character)) +
   geom_bar(stat = "count") + 
   labs(title = "Which character mentions the Capulet family the most?", x = "Character") + 
@@ -128,3 +135,28 @@ romeo_juliet |>
 ```
 
 These two plots show that Juliet mentions the Montague family the most and Benvolio, Prince, and Romeo mention the Capulet family the most. This is interesting because Romeo and Juliet have the most dialogue presumably as they are main characters so they mention the family names the most.
+
+The previous code assigned "Montague" to the dialogue which includes the Montagues and "Capulet" to the dialogue including the Capulets. In this next plot I will create a bar plot of the number of mentions of each family in each scene. Then see if this is related to the previous plots that counted the prevalence of the word deaths.  
+
+```{r}
+library(dplyr)
+
+#binding both the data frames together to be able to create a bar plot with the bars next to each other for each act 
+
+montague_and_capulet <- bind_rows(montague, capulet)
+
+montague_and_capulet_summary <- montague_and_capulet |>
+  group_by(act, Family) |>
+  summarize(frequency = n())
+  
+
+montague_and_capulet_summary |>
+  ggplot(aes(x = act, y = frequency, fill = Family)) + 
+  geom_bar(stat = "identity", position = position_dodge())
+
+
+
+```
+
+Looking back to the acts which have the most mentions of death there is not a clear correlation between these two graphs. Act III has the most mentions of death whereas this graph shows that Act I has the most prevalence of family name mentions. This could be because of the first act being the place where characters and families are established so this may not be especially telling, or conversely it could be foreshadowing for the future tragedies which are coming. 
+

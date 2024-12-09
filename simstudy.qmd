@@ -9,119 +9,89 @@ execute:
   warning: false
   message: false
 ---
-Source: openintro package
-[R/data-sex_discrimination.R](https://github.com/OpenIntroStat/openintro/blob/HEAD/R/data-sex_discrimination.R)
 
-Objective: 
-See if there is a correlation between gender and being promoted from a study in the 1970s about bank manager recommendations based on sex. We want to show that the proportion of women who are promoted is less than men and that this is significant.  
+Source: Rosen B and Jerdee T. 1974. [Influence of sex role stereotypes on personnel decisions.](https://www.semanticscholar.org/paper/Influence-of-sex-role-stereotypes-on-personnel-Rosen-Jerdee/14701408f0424f98b5223cd8ca37161cc6d5647a#citing-papers) Journal of Applied Psychology 59(1):9-14. 
 
-Our null hypothesis is that gender does not affect the likelihood that men or women are promoted. 
+Objective: See if there is a correlation between gender and being promoted from a study in the 1970s about bank manager recommendations based on sex. We want to show that the proportion of women who are promoted is less than men and that this is significant.
+
+Our null hypothesis is that gender does not affect the likelihood that men or women are promoted.
+
+#### The Data
+This data includes 48 observations with two variables: sex (a factor with levels female and male) and decision (a factor with levels not promoted and promoted)
 
 ```{r}
 
 library(openintro)
+library(ggplot2)
 
 
-sex_discrimination
+head(sex_discrimination)
 
 ```
-The following code is to calculate the summary statistic for our data. 
+
+#### Summary Statistics
+The following code is to calculate the summary statistics for our data.
+
 ```{r}
 library(dplyr)
-#the number of males and females in the study
-nmale = sum(sex_discrimination$sex == "male")
-nfemale = sum(sex_discrimination$sex =="female")
 
-#the number of males and females that were promoted
+sex_summary <- sex_discrimination |> 
+  group_by(sex) |>
+  summarize(prop_promoted = mean(decision == "promoted")) #finding the proportion of each gender which were promoted
+sex_summary
 
-males <- filter(sex_discrimination, sex == "male")
-
-male_promoted = sum(males$decision == "promoted")
-
-females <- filter(sex_discrimination, sex == "female")
-
-female_promoted = sum(females$decision == "promoted")
-
-#calculating the proportion of promotion with regard to gender 
-
-prop_male <- male_promoted/nmale
-
-prop_female <- female_promoted/nfemale
-
-#create a dataframe with these summary statistics
-
-gender_data <- data_frame(
-  Gender = c("male", "female"), 
-  Count = c(nmale, nfemale),
-  Promoted = c(male_promoted, female_promoted), 
-  Proportion = c(prop_male, prop_female)
-)
-
-gender_data
-
-#Calculating the different between the proportion of males that were promoted and females that were promoted
-obs_diff <- prop_male - prop_female
-obs_diff
+sex_diff <- sex_summary |>
+  summarize(prop_diff = diff(prop_promoted)) #finding the difference in proportion that were promoted 
+sex_diff
 ```
-Now we generate a null sampling distribution 
+This tells us that the proportion of men promoted from the data is 0.875 whereas the proportion of women promoted from the data is approximately 0.583. 
+Also we can see that the difference in proportion between the women who were promoted and the men who were promoted is -0.2916667. 
 
+#### Null Sampling Distribution
+
+Now we want to generate a null-sampling distribution by permuting the decision, assigning a random decision for every person from the 35 promoted and 13 not promoted individuals. 
 ```{r}
 library(dplyr)
 library(purrr)
 
-#function to find the proportion of a specific gender which are given a promotion 
+set.seed(4747)
 
-find_prop <- function(gender, data, promote_col){
-  gender_specific <- filter(data, sex == gender)
-  n_gender <- sum(data$sex == gender)
-  gender_promoted <- sum(gender_specific[[promote_col]] == "promoted" )
-  return(gender_promoted/n_gender)
+perm_data <- function(rep, data){
+ data |> 
+    mutate(decision_perm = sample(decision, replace = FALSE)) |>
+    group_by(sex) |>
+    summarize(perm_prop_promoted = mean(decision_perm == "promoted")) |>
+    summarize(perm_prop_diff = diff(perm_prop_promoted), rep = rep)
 }
 
-#test that find_prop works 
-find_prop("male", sex_discrimination, "decision")
-
-#we care about whether or not females are promoted the same as or less than the males so we care about the sign of the difference (hence no absolute value)
-find_prop_diff <- function(data, promote_col){
-  find_prop("male", data, promote_col) - find_prop("female", data, promote_col)
-}
-
-find_prop_diff(sex_discrimination, "decision")
-
-#function to permute the data & calculate the the proportion difference 
-perm_data <- function(data){
-  data <- data |>
-    mutate(promote_perm = sample(decision, replace = FALSE)) 
-  summarize(data, obs_prop_diff = find_prop_diff(data, "promote_perm"))
-}
-
+#map the function perm_data to create many 
+perm_stats <- map(1:5000, perm_data, data = sex_discrimination) |>
+  list_rbind()
 ```
 
+
+##### Visualization
 ```{r}
-library(ggplot2)
-
-#mapping the permutation 
-replication <- function(rep, data){
-  map_dfr(1:rep, ~perm_data(data))
-}
-
-set.seed(4747)
-perm_stats <- replication(100, sex_discrimination)
-
-ggplot(perm_stats, aes(x = obs_prop_diff)) + 
-  geom_histogram(binwidth = .05) + 
-  geom_vline(aes(xintercept = obs_diff), color = "red") +
+perm_stats |>
+  ggplot(aes(x = perm_prop_diff)) + 
+  geom_histogram(binwidth = 0.05) + 
+  geom_vline(aes(xintercept = -0.2916667), color = "red") +
   labs(title = "Null Distribution of Promotion Differences by Gender", 
        x = "Proportion Difference (Permuted Data)",
        y = "Frequency") + 
   theme_minimal()
-
 ```
 
-This is a graph of the null sampling distribution, that is we permuted the data many times switching the labels for men and women and promoted vs. not promoted and plotted this on the above histogram. The red vertical line shows our observed difference from the initial the sex_discrimination data from the study.  
+This is a graph of the null sampling distribution, that is we permuted the data many times assigning the existing decision labels randomly (shuffling) for men and women. Then plotted this on the above histogram. The red vertical line shows our observed difference from the initial the sex_discrimination data from the study.
 
 ```{r}
-sum(perm_stats>=obs_diff)
+sum(perm_stats<= -0.2916667) #finding how many values are below the summary statistic 
 ```
-There are only two entries from our null sampling distribution that are greater than or equal to our observed difference from the sampling distribution. 
-This gives us a p value of 0.02 which is very small. Small enough for us to reject our null hypothesis. Thus the gender of the person does make a difference on whether or not they were promoted. More specifically to the point of this simulation study, the proportion of females promoted was significantly fewer than the proportion of men who were promoted. Thus gender, specifically being a female plays a significant role. 
+
+There are only 18 entries from our null sampling distribution that are greater than or equal to our observed difference from the sampling distribution. This gives us a p value of 0.036 which is very small. Small enough for us to reject our null hypothesis. Thus the gender of the person does make a difference on whether or not they were promoted. More specifically to the point of this simulation study, the proportion of females promoted was significantly fewer than the proportion of men who were promoted. 
+
+
+#### Significance 
+
+This data can be generalized to the promotions of bank managers in the 1970s. We can see that during this time period, gender played a significant role in promotion decisions, as women were promoted in much lower rates than men. This data is specific to the context of bank manager recommendations and the time frame, so we cannot generalize to now. To do so we would need further data that is more recent.   
+

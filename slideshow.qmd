@@ -1,0 +1,62 @@
+---
+title: "Overview of DS002 Projects"
+author: "Ameya Teli"
+subtitle: "December 9, 2024"
+format:
+  revealjs:
+    scrollable: true
+    slide-number: true
+    show-slide-number: all
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Project 1: Data Visualizations 
+For this project one of the data sets I worked with was about the London Marathon from 1980 to 2020.
+ 
+* London Marathon: contains data about applicants, accepted runners, starters, finishers, and data on winners in the elite section 
+
+
+```{r, echo=FALSE}
+london_marathon <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/london_marathon.csv')
+soccer <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-04/soccer21-22.csv')
+
+```
+
+```{r}
+head(london_marathon)
+```
+
+## London Marathon 
+ 
+```{r, echo = FALSE}
+library(ggplot2)
+library(tidyverse)
+
+
+ggplot(data = london_marathon, 
+       aes(
+         x=Year, 
+         y=Accepted)
+       ) +
+  geom_point() + 
+  labs(title ="Number of Accepted Runners to the London Marathon vs Year")
+
+```
+[This is the shiny application to plot data in comparison to the number of runners accepted to the London Marathon](http://ameyateli.shinyapps.io/londonmarathon)
+
+## Project 2: Shakespeare Textual Analysis 
+
+* This project is a textual analysis of Romeo and Juliet 
+* The word of interest for most of this analysis is "death" given that Romeo and Juliet is a tragedy 
+* 
+
+```{r, echo=FALSE}
+
+```
+
+
+

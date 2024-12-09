@@ -1,0 +1,12 @@
+name: londonmarathon
+title: londonmarathon
+username: ameyateli
+account: ameyateli
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13550385
+bundleId: 9481900
+url: https://ameyateli.shinyapps.io/londonmarathon/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

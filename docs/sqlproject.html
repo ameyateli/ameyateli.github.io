@@ -135,11 +135,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./shake.html"> 
-<span class="menu-text">Shakespeare Text Analysis</span></a>
+<span class="menu-text">Shakespeare Textual Analysis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./simstudy.html"> 
-<span class="menu-text">Simulation Study</span></a>
+<span class="menu-text">Permutation Test</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -209,8 +209,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This data comes from the WAI-Database. (https://www.science.smith.edu/wai-database/home/about/)</p>
-<p>The goal of this project is to: (1) Recreate Figure 1 from <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7093226/">Voss (2020)</a> (2) Create my own graph that groups by a demographic variable in a particular study rather than all absorbances by study (for this project I will use sex)</p>
+<p>Source: This data comes from the WAI-Database hosted by Smith College (https://www.science.smith.edu/wai-database/home/about/) doi.org/10.35482/egr.001.2022</p>
+<p>The figure comes from Susan E. Voss Ear Hear. 2019 Nov-Dec;40(6):1481. doi: 10.1097/AUD.0000000000000790</p>
+<p>The goal of this project is to: (1) Recreate Figure 1 from <a href="https://journals.lww.com/ear-hearing/citation/2019/11000/resource_review.21.aspx">Voss (2020)</a> which comes from Ear and Hearing by Susan E. Voss and the Smith College Picker Engineering Program (2) Create my own graph that groups by a demographic variable in a particular study rather than all absorbances by study (for this project I will use sex)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
@@ -231,147 +232,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>PI_Info <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con_wai, <span class="st">"PI_Info"</span>)</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Subjects <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con_wai, <span class="st">"Subjects"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Below is the first 5 rows of the measurements table.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a># <span class="fu">collect</span>(Measurements)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>SHOW <span class="kw">TABLES</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>7 records</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Tables_in_wai</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Codebook</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Measurements</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Measurements_pre2020</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">PI_Info</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PI_Info_OLD</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Subjects</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Subjects_pre2020</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>DESCRIBE Measurements;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Displaying records 1 - 10</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Field</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Null</th>
-<th style="text-align: left;">Key</th>
-<th style="text-align: left;">Default</th>
-<th style="text-align: left;">Extra</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Identifier</td>
-<td style="text-align: left;">varchar(50)</td>
-<td style="text-align: left;">NO</td>
-<td style="text-align: left;">PRI</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">SubjectNumber</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">NO</td>
-<td style="text-align: left;">PRI</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Session</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">NO</td>
-<td style="text-align: left;">PRI</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ear</td>
-<td style="text-align: left;">varchar(50)</td>
-<td style="text-align: left;">NO</td>
-<td style="text-align: left;">PRI</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Instrument</td>
-<td style="text-align: left;">varchar(50)</td>
-<td style="text-align: left;">NO</td>
-<td style="text-align: left;">PRI</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Age</td>
-<td style="text-align: left;">float</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">AgeCategory</td>
-<td style="text-align: left;">varchar(50)</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">EarStatus</td>
-<td style="text-align: left;">varchar(50)</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">TPP</td>
-<td style="text-align: left;">float</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AreaCanal</td>
-<td style="text-align: left;">float</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Measurements</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">0</span>, <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Measurements</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">0</span>, <span class="dv">5</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>5 records</caption>
@@ -508,77 +373,75 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>This data shows that each study recorded absorbance of each subject many many times.</p>
+<p>This data shows that each study recorded absorbance of each subject many many times, that is of each ear many times and with many different frequencies.</p>
 <p>To recreate Figure 1 from <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7093226/">Voss (2020)</a> we must find the mean absorbance for each ear in each study, then plot it against the frequency. So I have to group the data by the study and frequency.</p>
 <div class="cell" data-output.var="table_one">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">Identifier</span>, </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  Frequency, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(Absorbance) <span class="kw">AS</span> Mean_Absorbance</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Measurements </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">Identifier</span> <span class="kw">IN</span> (</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ot">"Abur_2014"</span>, <span class="ot">"Feeney_2017"</span>, <span class="ot">"Groon_2015"</span>, <span class="ot">"Lewis_2015"</span>, <span class="ot">"Liu_2008"</span>, <span class="ot">"Rosowski_2012"</span>, <span class="ot">"Shahnaz_2006"</span>, <span class="ot">"Shaver_2013"</span>, <span class="ot">"Sun_2016"</span>, <span class="ot">"Voss_1994"</span>, <span class="ot">"Voss_2010"</span>, <span class="ot">"Werner_2010"</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>) </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">AND</span> Absorbance <span class="op">&gt;=</span> <span class="dv">0</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">AND</span> Frequency <span class="kw">BETWEEN</span> <span class="dv">200</span> <span class="kw">AND</span> <span class="dv">8000</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">Identifier</span>, Frequency</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  Measurements.<span class="kw">Identifier</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  Frequency, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(Absorbance) <span class="kw">AS</span> Mean_Absorbance, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CONCAT</span>(AuthorsShortList, <span class="ot">" ("</span>, <span class="dt">Year</span>, <span class="ot">") "</span>, <span class="ot">"N="</span>, <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> SubjectNumber, Ear), <span class="ot">" ; "</span>, Instrument) <span class="kw">AS</span> <span class="kw">Label</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Measurements </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> PI_Info <span class="kw">ON</span> Measurements.<span class="kw">Identifier</span> <span class="op">=</span> PI_Info.<span class="kw">Identifier</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> Measurements.<span class="kw">Identifier</span> <span class="kw">IN</span> (</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ot">"Abur_2014"</span>, <span class="ot">"Feeney_2017"</span>, <span class="ot">"Groon_2015"</span>, <span class="ot">"Lewis_2015"</span>, <span class="ot">"Liu_2008"</span>, <span class="ot">"Rosowski_2012"</span>, <span class="ot">"Shahnaz_2006"</span>, <span class="ot">"Shaver_2013"</span>, <span class="ot">"Sun_2016"</span>, <span class="ot">"Voss_1994"</span>, <span class="ot">"Voss_2010"</span>, <span class="ot">"Werner_2010"</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">AND</span> Frequency <span class="kw">BETWEEN</span> <span class="dv">200</span> <span class="kw">AND</span> <span class="dv">8000</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> Measurements.<span class="kw">Identifier</span>, Frequency, Instrument</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The table that has the information to add to the legend such as the author list and year is PI_Into.</p>
-<p>This code creates a data frame with the information we need for the legend, including the Authors, the year, and the instrument used in the study from PI_Info. Then it is joined with Measurements using LEFT JOIN because we want all the ear entries to have an associated legend entry.</p>
-<div class="cell" data-output.var="legend">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>AuthorsShortList, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="dt">Year</span>, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Measurements.Instrument, </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> SubjectNumber, Ear) <span class="kw">AS</span> Unique_Ears, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>PI_Info.<span class="kw">Identifier</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> PI_Info</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> Measurements <span class="kw">ON</span> PI_Info.<span class="kw">Identifier</span> <span class="op">=</span> Measurements.<span class="kw">Identifier</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> PI_Info.<span class="kw">Identifier</span> <span class="kw">IN</span> (</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ot">"Abur_2014"</span>, <span class="ot">"Feeney_2017"</span>, <span class="ot">"Groon_2015"</span>, <span class="ot">"Lewis_2015"</span>, <span class="ot">"Liu_2008"</span>, <span class="ot">"Rosowski_2012"</span>, <span class="ot">"Shahnaz_2006"</span>, <span class="ot">"Shaver_2013"</span>, <span class="ot">"Sun_2016"</span>, <span class="ot">"Voss_1994"</span>, <span class="ot">"Voss_2010"</span>, <span class="ot">"Werner_2010"</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>) </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> PI_Info.<span class="kw">Identifier</span>, Instrument</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>This table, table_one, has the information to add to the legend such as the author list, year, instrument, and is saved as Label.</p>
+<p>This code creates a data frame with the information we need for the legend, including the Authors, the year, and the instrument used in the study from PI_Info. Then it is joined with Measurements using JOIN because to have the information from the study as well as the information we need for the legend.</p>
 <p>Here I create a new data frame from joining table_one and legend to add the data from legend that we was not present in our initial filtering of table_one. Furthermore, the graph by Voss, instead of having entries with “other” for the Instrument it has “not commercial system”, so I replaced those. The last mutate is to create the legend entries like that of the original graph.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>graph_data <span class="ot">&lt;-</span> table_one <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(legend, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Identifier"</span> <span class="ot">=</span> <span class="st">"Identifier"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Instrument =</span> <span class="fu">ifelse</span>(Instrument <span class="sc">==</span> <span class="st">"Other"</span>, <span class="st">"not commercial system"</span>, Instrument)) <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">paste0</span>(AuthorsShortList, <span class="st">"("</span>, Year, <span class="st">") "</span>,<span class="st">"N="</span>, Unique_Ears, <span class="st">"; "</span>, Instrument)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Here I create the graph using ggplot using color = name to make each name have a different associated color rather than study allowing it to be in the legend.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>graph_data <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> Frequency, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> Mean_Absorbance, </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> name)) <span class="sc">+</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"right"</span>,<span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">'cm'</span>) </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Frequency (Hz)"</span>, </span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Mean Absorbance"</span>, </span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Mean absorbance from each publication in WAI database"</span>) <span class="sc">+</span> </span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>table_one <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> Frequency, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> Mean_Absorbance, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> Label)) <span class="sc">+</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.05</span>, <span class="st">'cm'</span>), </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>), </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    legend,<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey90"</span>), </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey95"</span>), </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>), </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>), </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"grey90"</span>, <span class="at">color =</span> <span class="cn">NA</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="cn">NA</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Frequency (Hz)"</span>, </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Mean Absorbance"</span>, </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Mean absorbance from each publication in WAI database"</span>) <span class="sc">+</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">8000</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">400</span>, <span class="dv">600</span>, <span class="dv">800</span>, <span class="dv">1000</span>, <span class="dv">2000</span>, <span class="dv">4000</span>, <span class="dv">6000</span>, <span class="dv">8000</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  )  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="sqlproject_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="sqlproject_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This graph is meant to be a recreation of the one by Voss. It shows that as frequency increases and is around 3000 Hz, the mean absorbence of most participants was at its peak. So from the participants in these studies, the best absorption their ears were able to do was at this frequency. Also very quicly after this there is a steep drop in the graph, which may indicate that after this ideal frequency of 3000 Hz it is harder for ears to absorb.</p>
+<p>This graph is meant to be a recreation of the one by Voss. It shows that as frequency increases and is around 3000 Hz, the mean absorbance of most participants was at its peak. So from the participants in these studies, the best absorption their ears were able to do was at this frequency. Also very quickly after this there is a steep drop in the graph, which may indicate that after this ideal frequency of 3000 Hz it is harder for ears to absorb.</p>
+<section id="part-2" class="level4">
+<h4 class="anchored" data-anchor-id="part-2">Part 2</h4>
+<p>Source: Non-invasive estimation of middle-ear input impedance and efficiency by Lewis JD and Neely ST (2015) J Acoust Soc Am. 2015 Aug 19;138(2):977–993. doi: 10.1121/1.4927408</p>
 <p>Part 2 of this project explores specifically the study done by Lewis and Neely in 2015. In their study they track sex as a variable. The goal of this section is to create a graph like the one above, but instead of having a line for each study, have a line for each gender in this specific study.</p>
+<p>Below is the first 10 rows of the Subjects table of Lewis and Neely’s study.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Subjects</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">Identifier</span> <span class="op">=</span> <span class="ot">"Lewis_2015"</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">0</span>, <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Subjects</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">Identifier</span> <span class="op">=</span> <span class="ot">"Lewis_2015"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">0</span>, <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Displaying records 1 - 10</caption>
@@ -745,37 +608,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>For this next visualizations I will focus on specifically Lewis_2015, which has data on the gender of it’s participants.</p>
-<p>To do this I first create a new data frame table_two which is all the frequencies and mean absorbances for the Lewis_2015 study joined with Measurements to obtain the Mean_Absorbance for each frequency as observed in part 1, however, this section adds the additional group of “Sex”.</p>
+<p>To create this visualization I first create a new data frame table_two which is all the frequencies and mean absorbances for the Lewis_2015 study joined with Measurements to obtain the Mean_Absorbance for each frequency as observed in part 1, however, this section adds the additional group of “Sex”.</p>
 <div class="cell" data-output.var="table_two">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  Measurements.<span class="kw">Identifier</span>, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  Frequency, </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(Absorbance) <span class="kw">AS</span> Mean_Absorbance, </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  Sex, </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  AuthorsShortList</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Measurements </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> PI_Info <span class="kw">ON</span> Measurements.<span class="kw">Identifier</span> <span class="op">=</span> PI_Info.<span class="kw">Identifier</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> Subjects <span class="kw">ON</span> Subjects.SubjectNumber <span class="op">=</span> Measurements.SubjectNumber </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> Measurements.<span class="kw">Identifier</span> <span class="op">=</span> <span class="ot">"Lewis_2015"</span> </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="kw">AND</span> Absorbance <span class="op">&gt;=</span> <span class="dv">0</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="kw">AND</span> Frequency <span class="kw">BETWEEN</span> <span class="dv">200</span> <span class="kw">AND</span> <span class="dv">8000</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> Sex, <span class="kw">Identifier</span>, Frequency</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  Measurements.<span class="kw">Identifier</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  Frequency, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(Absorbance) <span class="kw">AS</span> Mean_Absorbance, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  Sex, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  AuthorsShortList</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Measurements </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> PI_Info <span class="kw">ON</span> Measurements.<span class="kw">Identifier</span> <span class="op">=</span> PI_Info.<span class="kw">Identifier</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> Subjects <span class="kw">ON</span> Subjects.SubjectNumber <span class="op">=</span> Measurements.SubjectNumber </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> Measurements.<span class="kw">Identifier</span> <span class="op">=</span> <span class="ot">"Lewis_2015"</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">AND</span> Absorbance <span class="op">&gt;=</span> <span class="dv">0</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="kw">AND</span> Frequency <span class="kw">BETWEEN</span> <span class="dv">200</span> <span class="kw">AND</span> <span class="dv">8000</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> Sex, <span class="kw">Identifier</span>, Frequency</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using this data frame I can use ggplot to plot the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>table_two <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> Frequency, </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> Mean_Absorbance, </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> Sex)) <span class="sc">+</span> </span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mean Absorbance vs. Frequency based on gender in Lewis and Neely's 2015 study"</span>, <span class="at">y =</span> <span class="st">"Mean Absorbance"</span>, <span class="at">x =</span> <span class="st">"Frequency (Hz)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>table_two <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> Frequency, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> Mean_Absorbance, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> Sex)) <span class="sc">+</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mean Absorbance vs. Frequency based on gender in Lewis and Neely's 2015 study"</span>, <span class="at">y =</span> <span class="st">"Mean Absorbance"</span>, <span class="at">x =</span> <span class="st">"Frequency (Hz)"</span>) <span class="sc">+</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">8000</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">400</span>, <span class="dv">600</span>, <span class="dv">800</span>, <span class="dv">1000</span>, <span class="dv">2000</span>, <span class="dv">4000</span>, <span class="dv">6000</span>, <span class="dv">8000</span>)) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.8</span>),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.05</span>, <span class="st">'cm'</span>), </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>), </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    legend,<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey90"</span>), </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"grey95"</span>), </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>), </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>), </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"grey90"</span>, <span class="at">color =</span> <span class="cn">NA</span>),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="cn">NA</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="sqlproject_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="sqlproject_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -783,6 +662,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This graph has three different colored lines. One for female, male and unknown (possibly all the participants whose genders were not recorded). This graph shows that all three of the sexes have similar Mean Absorbances at frequencies. However, it appears that the unknown gender has much more fluctuations than the other two. This could be due to the mixture of genders that are in this group, or that it may be larger than the others. Zooming into the female and male lines, we can see that the male line is generally above the female line from 1000 Hz to 6000 Hz. However, at most other points the lines are almost identical.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

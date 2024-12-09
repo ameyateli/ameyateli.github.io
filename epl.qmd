@@ -45,21 +45,16 @@ head(soccer_month)
 This code converts the number for the month into the month name using the function month.name. 
 
 ```{r}
-months_df <- data.frame(
-  month = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"), 
-  group = c(1:10))
-
-
 soccer_grouped <- soccer_month |>
   group_by(Month) |>
   summarize(Total_Goals = sum(FTHG), num_games = n()) |>
-  mutate(month_num = c(6,7,8,9,10,1,2,3,4,5)) |> 
-  mutate(Month_Name = month.name[as.numeric(Month)]) |>
+  mutate(month_num = c(6,7,8,9,10,1,2,3,4,5)) |> #adding a column that orders the months in the order that the premier league is played in
+  mutate(Month_Name = month.name[as.numeric(Month)]) |> #creates a month name column which converts the numbered month to the calendar month name 
   mutate(
     month_faceted = factor(
       Month_Name, 
-      levels = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"))) |>
-  arrange(month_faceted)
+      levels = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"))) |> #creating a factor variable that assigns an order to the months
+  arrange(month_faceted) #ordering the months in order that the factor variable creates 
 
 ```
 
@@ -113,13 +108,13 @@ away_grouped <- soccer_month |>
   group_by(Month) |>
   summarize(Total_Goals = sum(FTAG), 
             num_games = n()) |>
-  mutate(month_num = c(6,7,8,9,10,1,2,3,4,5)) |> 
-  mutate(Month_Name = month.name[as.numeric(Month)]) |>
+  mutate(month_num = c(6,7,8,9,10,1,2,3,4,5)) |> #adding a column that orders the months in the order that the premier league is played in
+  mutate(Month_Name = month.name[as.numeric(Month)]) |> #creates a month name column which converts the numbered month to the calendar month name 
   mutate(
     month_faceted = factor(
       Month_Name, 
-      levels = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"))) |>
-  arrange(month_faceted) |> 
+      levels = c("August", "September", "October", "November", "December", "January", "February", "March", "April", "May"))) |> #creating a factor variable that assigns an order to the months
+  arrange(month_faceted) |> #ordering the months in order that the factor variable creates 
   mutate(goals_per_game = Total_Goals/num_games)
 
 ```

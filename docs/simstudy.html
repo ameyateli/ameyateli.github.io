@@ -135,11 +135,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./shake.html"> 
-<span class="menu-text">Shakespeare Text Analysis</span></a>
+<span class="menu-text">Shakespeare Textual Analysis</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./simstudy.html" aria-current="page"> 
-<span class="menu-text">Simulation Study</span></a>
+<span class="menu-text">Permutation Test</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -209,131 +209,92 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Source: openintro package <a href="https://github.com/OpenIntroStat/openintro/blob/HEAD/R/data-sex_discrimination.R">R/data-sex_discrimination.R</a></p>
+<p>Source: Rosen B and Jerdee T. 1974. <a href="https://www.semanticscholar.org/paper/Influence-of-sex-role-stereotypes-on-personnel-Rosen-Jerdee/14701408f0424f98b5223cd8ca37161cc6d5647a#citing-papers">Influence of sex role stereotypes on personnel decisions.</a> Journal of Applied Psychology 59(1):9-14.</p>
 <p>Objective: See if there is a correlation between gender and being promoted from a study in the 1970s about bank manager recommendations based on sex. We want to show that the proportion of women who are promoted is less than men and that this is significant.</p>
 <p>Our null hypothesis is that gender does not affect the likelihood that men or women are promoted.</p>
+<section id="the-data" class="level4">
+<h4 class="anchored" data-anchor-id="the-data">The Data</h4>
+<p>This data includes 48 observations with two variables: sex (a factor with levels female and male) and decision (a factor with levels not promoted and promoted)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sex_discrimination</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sex_discrimination)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 48 × 2
-   sex   decision
-   &lt;fct&gt; &lt;fct&gt;   
- 1 male  promoted
- 2 male  promoted
- 3 male  promoted
- 4 male  promoted
- 5 male  promoted
- 6 male  promoted
- 7 male  promoted
- 8 male  promoted
- 9 male  promoted
-10 male  promoted
-# ℹ 38 more rows</code></pre>
+<pre><code># A tibble: 6 × 2
+  sex   decision
+  &lt;fct&gt; &lt;fct&gt;   
+1 male  promoted
+2 male  promoted
+3 male  promoted
+4 male  promoted
+5 male  promoted
+6 male  promoted</code></pre>
 </div>
 </div>
-<p>The following code is to calculate the summary statistic for our data.</p>
+</section>
+<section id="summary-statistics" class="level4">
+<h4 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h4>
+<p>The following code is to calculate the summary statistics for our data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#the number of males and females in the study</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nmale <span class="ot">=</span> <span class="fu">sum</span>(sex_discrimination<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"male"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>nfemale <span class="ot">=</span> <span class="fu">sum</span>(sex_discrimination<span class="sc">$</span>sex <span class="sc">==</span><span class="st">"female"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#the number of males and females that were promoted</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>males <span class="ot">&lt;-</span> <span class="fu">filter</span>(sex_discrimination, sex <span class="sc">==</span> <span class="st">"male"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>male_promoted <span class="ot">=</span> <span class="fu">sum</span>(males<span class="sc">$</span>decision <span class="sc">==</span> <span class="st">"promoted"</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>females <span class="ot">&lt;-</span> <span class="fu">filter</span>(sex_discrimination, sex <span class="sc">==</span> <span class="st">"female"</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>female_promoted <span class="ot">=</span> <span class="fu">sum</span>(females<span class="sc">$</span>decision <span class="sc">==</span> <span class="st">"promoted"</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#calculating the proportion of promotion with regard to gender </span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>prop_male <span class="ot">&lt;-</span> male_promoted<span class="sc">/</span>nmale</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>prop_female <span class="ot">&lt;-</span> female_promoted<span class="sc">/</span>nfemale</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#create a dataframe with these summary statistics</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>gender_data <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>), </span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">Count =</span> <span class="fu">c</span>(nmale, nfemale),</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">Promoted =</span> <span class="fu">c</span>(male_promoted, female_promoted), </span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">Proportion =</span> <span class="fu">c</span>(prop_male, prop_female)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>gender_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sex_summary <span class="ot">&lt;-</span> sex_discrimination <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_promoted =</span> <span class="fu">mean</span>(decision <span class="sc">==</span> <span class="st">"promoted"</span>)) </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sex_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 4
-  Gender Count Promoted Proportion
-  &lt;chr&gt;  &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;
-1 male      24       21      0.875
-2 female    24       14      0.583</code></pre>
+<pre><code># A tibble: 2 × 2
+  sex    prop_promoted
+  &lt;fct&gt;          &lt;dbl&gt;
+1 male           0.875
+2 female         0.583</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating the different between the proportion of males that were promoted and females that were promoted</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> prop_male <span class="sc">-</span> prop_female</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>obs_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sex_diff <span class="ot">&lt;-</span> sex_summary <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_diff =</span> <span class="fu">diff</span>(prop_promoted))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sex_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2916667</code></pre>
+<pre><code># A tibble: 1 × 1
+  prop_diff
+      &lt;dbl&gt;
+1    -0.292</code></pre>
 </div>
 </div>
-<p>Now we generate a null sampling distribution</p>
+<p>This tells us that the proportion of men promoted from the data is 0.875 whereas the proportion of women promoted from the data is approximately 0.583. Also we can see that the difference in proportion between the women who were promoted and the men who were promoted is -0.2916667.</p>
+</section>
+<section id="null-sampling-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="null-sampling-distribution">Null Sampling Distribution</h4>
+<p>Now we want to generate a null-sampling distribution by permuting the decision, assigning a random decision for every person from the 35 promoted and 13 not promoted individuals.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#function to find the proportion of a specific gender which are given a promotion </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4747</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>find_prop <span class="ot">&lt;-</span> <span class="cf">function</span>(gender, data, promote_col){</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  gender_specific <span class="ot">&lt;-</span> <span class="fu">filter</span>(data, sex <span class="sc">==</span> gender)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  n_gender <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>sex <span class="sc">==</span> gender)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  gender_promoted <span class="ot">&lt;-</span> <span class="fu">sum</span>(gender_specific[[promote_col]] <span class="sc">==</span> <span class="st">"promoted"</span> )</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(gender_promoted<span class="sc">/</span>n_gender)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#test that find_prop works </span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">find_prop</span>(<span class="st">"male"</span>, sex_discrimination, <span class="st">"decision"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.875</code></pre>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>perm_data <span class="ot">&lt;-</span> <span class="cf">function</span>(rep, data){</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a> data <span class="sc">|&gt;</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">decision_perm =</span> <span class="fu">sample</span>(decision, <span class="at">replace =</span> <span class="cn">FALSE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">perm_prop_promoted =</span> <span class="fu">mean</span>(decision_perm <span class="sc">==</span> <span class="st">"promoted"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">perm_prop_diff =</span> <span class="fu">diff</span>(perm_prop_promoted), <span class="at">rep =</span> rep)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#map the function perm_data to create many </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>, perm_data, <span class="at">data =</span> sex_discrimination) <span class="sc">|&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#we care about whether or not females are promoted the same as or less than the males so we care about the sign of the difference (hence no absolute value)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>find_prop_diff <span class="ot">&lt;-</span> <span class="cf">function</span>(data, promote_col){</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">find_prop</span>(<span class="st">"male"</span>, data, promote_col) <span class="sc">-</span> <span class="fu">find_prop</span>(<span class="st">"female"</span>, data, promote_col)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">find_prop_diff</span>(sex_discrimination, <span class="st">"decision"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2916667</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#function to permute the data &amp; calculate the the proportion difference </span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>perm_data <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">promote_perm =</span> <span class="fu">sample</span>(decision, <span class="at">replace =</span> <span class="cn">FALSE</span>)) </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(data, <span class="at">obs_prop_diff =</span> <span class="fu">find_prop_diff</span>(data, <span class="st">"promote_perm"</span>))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="visualization" class="level5">
+<h5 class="anchored" data-anchor-id="visualization">Visualization</h5>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#mapping the permutation </span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>replication <span class="ot">&lt;-</span> <span class="cf">function</span>(rep, data){</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dfr</span>(<span class="dv">1</span><span class="sc">:</span>rep, <span class="sc">~</span><span class="fu">perm_data</span>(data))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4747</span>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="ot">&lt;-</span> <span class="fu">replication</span>(<span class="dv">100</span>, sex_discrimination)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_stats, <span class="fu">aes</span>(<span class="at">x =</span> obs_prop_diff)) <span class="sc">+</span> </span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> .<span class="dv">05</span>) <span class="sc">+</span> </span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> obs_diff), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Null Distribution of Promotion Differences by Gender"</span>, </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Proportion Difference (Permuted Data)"</span>,</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span> </span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> perm_prop_diff)) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.05</span>) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="fl">0.2916667</span>), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Null Distribution of Promotion Differences by Gender"</span>, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Proportion Difference (Permuted Data)"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -342,16 +303,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This is a graph of the null sampling distribution, that is we permuted the data many times switching the labels for men and women and promoted vs.&nbsp;not promoted and plotted this on the above histogram. The red vertical line shows our observed difference from the initial the sex_discrimination data from the study.</p>
+<p>This is a graph of the null sampling distribution, that is we permuted the data many times assigning the existing decision labels randomly (shuffling) for men and women. Then plotted this on the above histogram. The red vertical line shows our observed difference from the initial the sex_discrimination data from the study.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(perm_stats<span class="sc">&gt;=</span>obs_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(perm_stats<span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.2916667</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>[1] 18</code></pre>
 </div>
 </div>
-<p>There are only two entries from our null sampling distribution that are greater than or equal to our observed difference from the sampling distribution. This gives us a p value of 0.02 which is very small. Small enough for us to reject our null hypothesis. Thus the gender of the person does make a difference on whether or not they were promoted. More specifically to the point of this simulation study, the proportion of females promoted was significantly fewer than the proportion of men who were promoted. Thus gender, specifically being a female plays a significant role.</p>
+<p>There are only 18 entries from our null sampling distribution that are greater than or equal to our observed difference from the sampling distribution. This gives us a p value of 0.036 which is very small. Small enough for us to reject our null hypothesis. Thus the gender of the person does make a difference on whether or not they were promoted. More specifically to the point of this simulation study, the proportion of females promoted was significantly fewer than the proportion of men who were promoted.</p>
+</section>
+</section>
+<section id="significance" class="level4">
+<h4 class="anchored" data-anchor-id="significance">Significance</h4>
+<p>This data can be generalized to the promotions of bank managers in the 1970s. We can see that during this time period, gender played a significant role in promotion decisions, as women were promoted in much lower rates than men. This data is specific to the context of bank manager recommendations and the time frame, so we cannot generalize to now. To do so we would need further data that is more recent.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
