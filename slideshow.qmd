@@ -18,11 +18,12 @@ execute:
 
 ## Project 2: Shakespeare Textual Analysis 
 
-* This project is a textual analysis of Romeo and Juliet 
+* This project is a textual analysis of *Romeo and Juliet* 
 * It is split into a few stages, 3 of which are: 
   1. How much is death mentioned? 
   2. Punctuation
   3. Act III Analysis
+* Goal: Explore how *Romeo and Juliet* employs the theme of death and uses punctuation to understand the narrative flow 
   
 #### Source 
 ::: {.class-name style="font-size: 50%;"}
@@ -58,6 +59,9 @@ ggplot(deathrj, aes(x = character)) +
 
 ```
 
+## Which character? 
+* Romeo and Friar Lawrence mention death the most 
+* Romeo being one of the characters who eventually dies & Friar Lawrence who gives Juliet the sleeping potion 
 
 ## Mentions in Acts
 ```{r, echo=FALSE}
@@ -73,16 +77,15 @@ ggplot(act_num, aes(x = act)) +
 ## Mentions in Acts 
 * Most mentions of death in Act III and Act V
 * A few notable deaths occur here 
-* Maybe characters announce that they are going to die
+* Many characters announce that they are going to die
+  * "Thus with a kiss I die" -Romeo
 * Other's talk about their deaths 
 
 # Punctuation 
+* Not constant in every edition of *Romeo and Juliet*
 
-## Punctuation
-* In the following plot I looked at places in the dialogue with something I called "strong punctuation" which was either "!" or "?".
-* Using regular expressions 
-  * str_detect(dialogue, "!+|\\?+")
-* Created a new column (strong_punctuation) that was either true or false 
+## Punctuation in Act III
+* In the following plot I looked at places in the dialogue with something I called "strong punctuation" which was either "!" or "?" in lines that already had the word death
 
 
 ## Bar Chart
@@ -99,21 +102,18 @@ ggplot(filtered_act_num, aes(x = scene, fill = strong_punctuation))+
 ```
 
 ## Bar Chart 
-* Greater proportion of strong punctuation in Scene 5 than the rest
-* Shows the prorportion of lines of dialogue that have strong punctuation versus lines of dialogue without 
+* Greater proportion of strong punctuation in Scene 5 than the rest due to high emotional intensity 
 * Stronger emotions related to the phrases that include a strong punctuation mark 
 * Important events may occur in places with stronger emotions  
+
 
 # Act III 
 
 ## Word/Character After Death in Act III
 
-* Because Act III has the most mentions of death I wanted to look through the act to looking at the word/character after death    
+* Because Act III has the most mentions of death I wanted to look through the act: looking at the word/character after death    
 * In this act two notable characters die: Tybalt and Mercutio
 * Looking at the words/characters around the word "death" can tell us a lot about a moment 
-
-* By creating a new df called filtered_act_num, I created a column called word_after_death using:
-  * str_extract(dialogue, "death\\s*\\S+")
   
 ## Word/Character
 ```{r, echo=FALSE}
@@ -128,5 +128,17 @@ ggplot(filtered_act_num, aes(x = word_after_death))+
        y = "Count")+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+## Word/Character
+* The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III
+* In comparison to a period which ends a sentence 
+* In Shakespeare's writing, lines often end with commas or periods 
+* Also this is interesting for analyzing Shakespeare's style 
+
+## Conclusion 
+* Death is a very important theme in *Romeo and Juliet* 
+* The two most death heavy scenes have the most mentions of the word "death"
+* Punctation is useful to understand the emotions of the scenes that death occurs in (more strong punctuation in scene V and in act III death is most commonly followed by ",")
+* This shows that Shakespeare uses his themes very deliberatly explicitly stating "death" many times and punctuation to heighten drama
 
 # Thank you! 
