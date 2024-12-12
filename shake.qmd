@@ -13,6 +13,8 @@ Textual analysis of Shakespeare dialogue in his tragedy "Romeo and Juliet".
 
 This data was curated by [Nicola Rennie](https://github.com/nrennie) from [The Complete Works of William Shakespeare](https://shakespeare.mit.edu) the Web's first edition of the Complete Works of William Shakespeare.
 
+This project primarily focuses on mentions of the word "death" in the context of the play to learn about Shakespeare's style and how the play works. We find that he is very explicit in his usage of the word death, mentioned death the most in places where the deaths of characters happen. A future analysis could be done on examining other tenses of the word "death" such as "dying" and "die" however, this project does not examine these for brevity. Also these other tenses may refer to deaths, however tenses add an important aspect to the way things can be read, so refering to instances of the word "death" is easier to do literary analysis on.  
+
 ```{r}
 romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv')
 ```
@@ -93,6 +95,8 @@ ggplot(filtered_act_num, aes(x = word_after_death))+
 ```
 
 The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. However, not a complete thought as a period would indicate. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings.
+The NA on this graph presumably refers to moments when the word "death" is at the end of a line of dialogue. Furthermore, this plot refers to the character/word after death assuming it is in the same line. 
+For a future study I would create a new data frame with sentences rather than lines to do an analysis on sentence structure rather than line structure (although lines are very important to Shakespeare's writing as well which validates this strategy I take in this project).
 
 ```{r}
 head(filtered_act_num)

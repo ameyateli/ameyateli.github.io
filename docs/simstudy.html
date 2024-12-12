@@ -171,8 +171,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data">The Data</a></li>
+  <li><a href="#summary-statistics" id="toc-summary-statistics" class="nav-link" data-scroll-target="#summary-statistics">Summary Statistics</a></li>
+  <li><a href="#null-sampling-distribution" id="toc-null-sampling-distribution" class="nav-link" data-scroll-target="#null-sampling-distribution">Null Sampling Distribution</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -216,8 +224,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Source: Rosen B and Jerdee T. 1974. <a href="https://www.semanticscholar.org/paper/Influence-of-sex-role-stereotypes-on-personnel-Rosen-Jerdee/14701408f0424f98b5223cd8ca37161cc6d5647a#citing-papers">Influence of sex role stereotypes on personnel decisions.</a> Journal of Applied Psychology 59(1):9-14.</p>
 <p>Objective: See if there is a correlation between gender and being promoted from a study in the 1970s about bank manager recommendations based on sex. We want to show that the proportion of women who are promoted is less than men and that this is significant.</p>
 <p>Our null hypothesis is that gender does not affect the likelihood that men or women are promoted.</p>
-<section id="the-data" class="level4">
-<h4 class="anchored" data-anchor-id="the-data">The Data</h4>
+<section id="the-data" class="level3">
+<h3 class="anchored" data-anchor-id="the-data">The Data</h3>
 <p>This data includes 48 observations with two variables: sex (a factor with levels female and male) and decision (a factor with levels not promoted and promoted)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)</span>
@@ -238,8 +246,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="summary-statistics" class="level4">
-<h4 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h4>
+<section id="summary-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h3>
 <p>The following code is to calculate the summary statistics for our data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -267,8 +275,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This tells us that the proportion of men promoted from the data is 0.875 whereas the proportion of women promoted from the data is approximately 0.583. Also we can see that the difference in proportion between the women who were promoted and the men who were promoted is -0.2916667.</p>
 </section>
-<section id="null-sampling-distribution" class="level4">
-<h4 class="anchored" data-anchor-id="null-sampling-distribution">Null Sampling Distribution</h4>
+<section id="null-sampling-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="null-sampling-distribution">Null Sampling Distribution</h3>
 <p>Now we want to generate a null-sampling distribution by permuting the decision, assigning a random decision for every person from the 35 promoted and 13 not promoted individuals.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -288,8 +296,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>, perm_data, <span class="at">data =</span> sex_discrimination) <span class="sc">|&gt;</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="visualization" class="level5">
-<h5 class="anchored" data-anchor-id="visualization">Visualization</h5>
+<section id="visualization" class="level4">
+<h4 class="anchored" data-anchor-id="visualization">Visualization</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>perm_stats <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> perm_prop_diff)) <span class="sc">+</span> </span>
@@ -302,7 +310,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="simstudy_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="simstudy_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" alt="Histogram of the Null Sampling Distribution of Promotion Differences by Gender, the x-axis shows the proportion difference, the y axis shows the frequency that this proportion difference occured at. There is a red line at the test statistic of difference in promotion of women and men of -0.2916667" width="672"></p>
 </figure>
 </div>
 </div>
@@ -316,12 +324,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>There are only 18 entries from our null sampling distribution that are greater than or equal to our observed difference from the sampling distribution. This gives us a p value of 0.036 which is very small. Small enough for us to reject our null hypothesis. Thus the gender of the person does make a difference on whether or not they were promoted. More specifically to the point of this simulation study, the proportion of females promoted was significantly fewer than the proportion of men who were promoted.</p>
 </section>
-</section>
 <section id="significance" class="level4">
 <h4 class="anchored" data-anchor-id="significance">Significance</h4>
 <p>This data can be generalized to the promotions of bank managers in the 1970s. We can see that during this time period, gender played a significant role in promotion decisions, as women were promoted in much lower rates than men. This data is specific to the context of bank manager recommendations and the time frame, so we cannot generalize to now. To do so we would need further data that is more recent.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

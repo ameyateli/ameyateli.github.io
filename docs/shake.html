@@ -224,6 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Textual analysis of Shakespeare dialogue in his tragedy “Romeo and Juliet”.</p>
 <p>This data was curated by <a href="https://github.com/nrennie">Nicola Rennie</a> from <a href="https://shakespeare.mit.edu">The Complete Works of William Shakespeare</a> the Web’s first edition of the Complete Works of William Shakespeare.</p>
+<p>This project primarily focuses on mentions of the word “death” in the context of the play to learn about Shakespeare’s style and how the play works. We find that he is very explicit in his usage of the word death, mentioned death the most in places where the deaths of characters happen. A future analysis could be done on examining other tenses of the word “death” such as “dying” and “die” however, this project does not examine these for brevity. Also these other tenses may refer to deaths, however tenses add an important aspect to the way things can be read, so refering to instances of the word “death” is easier to do literary analysis on.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-09-17/romeo_juliet.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -328,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. However, not a complete thought as a period would indicate. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings.</p>
+<p>The most common thing following death is a comma, indicating that death ends a thought of most of the dialogue in Act III. However, not a complete thought as a period would indicate. This is interesting if we wanted to analyze the style that Shakespeare uses to foreshadow the impending doom of Romeo and Juliet and those others who face tragic endings. The NA on this graph presumably refers to moments when the word “death” is at the end of a line of dialogue. Furthermore, this plot refers to the character/word after death assuming it is in the same line. For a future study I would create a new data frame with sentences rather than lines to do an analysis on sentence structure rather than line structure (although lines are very important to Shakespeare’s writing as well which validates this strategy I take in this project).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filtered_act_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -404,11 +405,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>montague_and_capulet_summary <span class="sc">|&gt;</span></span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> act, <span class="at">y =</span> frequency, <span class="at">fill =</span> Family)) <span class="sc">+</span> </span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>())<span class="sc">+</span> </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Act"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>, <span class="at">title =</span> <span class="st">"Mentions of the Family Names in each Act"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" alt="This is a side by side bar plot with one bar for Capulet then Montague showing the frequency that their family name was mentioned. The Acts are on the x-axis then frequency on the y-axis. It shows that act one had the most mentions of both families however the Montague family was mentioned more. Notably in act 4 only the Capulet family was mentioned." width="672"></p>
 </figure>
 </div>
 </div>
