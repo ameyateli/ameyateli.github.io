@@ -74,7 +74,7 @@ This code creates a data frame with the information we need for the legend, incl
 
 Here I create the graph using ggplot using color = Label to make each name have a different associated color rather than study allowing it to be in the legend.
 
-```{r}
+```{r, fig.alt="Line graph of mean absorbance from each publication in WAI database. Each line on the line graph refers to a different publication. Frequency on the x-axis from 200 Hz to 8000 Hz and Mean Absorbance on y-axis. Shows that there is a peak around 3000 Hz in mean absorbance and a quick decline after this indicating that maybe the best absorbance occurs at 3000Hz frequency"}
 table_one |>
   ggplot(aes(
       x = Frequency, 
@@ -148,7 +148,7 @@ GROUP BY Sex, Identifier, Frequency
 
 Using this data frame I can use ggplot to plot the data.
 
-```{r}
+```{r, fig.alt="This graph is a line graph with three lines one for female, one for male, and one for unknown that shows Mean Absorbance vs. Frequency based on Gender in Lewis and Neely's 2015 study. The x-axis has Frequency in Hz from 200 to 8000 and the y-axis has mean absorbance from 0 to 1. There is a similar trend to the first graph however it has a peak in Mean Absorbance at around 2000Hz and after the decline is much less drastic than the first"}
 
 table_two |>
 ggplot(

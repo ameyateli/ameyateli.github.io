@@ -71,7 +71,7 @@ perm_stats <- map(1:5000, perm_data, data = sex_discrimination) |>
 
 
 #### Visualization
-```{r}
+```{r, fig.alt="Histogram of the Null Sampling Distribution of Promotion Differences by Gender, the x-axis shows the proportion difference, the y axis shows the frequency that this proportion difference occured at. There is a red line at the test statistic of difference in promotion of women and men of -0.2916667"}
 perm_stats |>
   ggplot(aes(x = perm_prop_diff)) + 
   geom_histogram(binwidth = 0.05) + 

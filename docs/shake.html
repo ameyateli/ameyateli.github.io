@@ -247,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" alt="Bar plot of which character mentions death the most, character on the x-axis and count on the y axis. Romeo has the most mentions of the word 'death' (with just below 20) and Friar Lawrence has the second most mentions of death (just below 15), the next is Juliet, then the rest of the characters are much lower and similar in terms of mentions of death" width="672"></p>
 </figure>
 </div>
 </div>
@@ -264,7 +264,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" alt="Bar plot of which act has the most mentions of death with Act number on the x-axis and count on the y-axis. Act 3 (25 mentions) has the most mentions of death, next act 5 then 4,2 then 1." width="672"></p>
 </figure>
 </div>
 </div>
@@ -283,11 +283,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> scene, <span class="at">fill =</span> strong_punctuation))<span class="sc">+</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of strong punctuation marks across scenes"</span>, <span class="at">x =</span> <span class="st">"Scene"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of lines with strong punctuation marks across scenes in Act III"</span>, <span class="at">x =</span> <span class="st">"Scene"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" alt="Proportion bar plot of proportion of lines in Romeo and Juliet with strong punctuation marks across scenes in Act III. With scene on the x-axis and proportion on the y-axis. We can see that scene 5 has the highest proportion of strong punctuation marks in lines with approximately 66%, next is scene 1 with approximately 30% and the lowets is scene 2 with just above 15%" width="672"></p>
 </figure>
 </div>
 </div>
@@ -303,7 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" alt="Bar plot of mentions of death across scenes in Act III. With scene on the x-axis and count on the y-axis. Shows that scene 3 in act 3 has the most mentions of death with 11" width="672"></p>
 </figure>
 </div>
 </div>
@@ -312,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>filtered_act_num <span class="ot">&lt;-</span> act_num <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(act <span class="sc">==</span> <span class="st">"III"</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word_after_death =</span> <span class="fu">str_extract</span>(dialogue, <span class="st">"death</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">S+"</span>)) <span class="co">#extracting moments when there is a word/character after death using spaces</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word_after_death =</span> <span class="fu">str_extract</span>(dialogue, <span class="st">"death</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">S+"</span>))  <span class="co">#extracting moments when there is a word/character after death using spaces</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_act_num, <span class="fu">aes</span>(<span class="at">x =</span> word_after_death))<span class="sc">+</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"count"</span>)<span class="sc">+</span></span>
@@ -323,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" alt="Bar plot that shows the word/character after death in Act III, on the x-axis it is death and the word or character after death and count on the y-axis. The most common combination was 'death,'" width="672"></p>
 </figure>
 </div>
 </div>
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" alt="This is a bar plot of which characters mention the Capulet family. The x-axis is the characterse while the y-axis is the count. We can see that Romeo and Benvolio mention the Capulet family the most, next Prince, and then the rest of the characters mention it the same amount (once)" width="672"></p>
 </figure>
 </div>
 </div>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="shake_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="shake_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" alt="This is a bar plot of which characters mention the Capulet family. The x-axis is the characterse while the y-axis is the count. We can see that Romeo and Benvolio mention the Capulet family the most, next Prince, and then the rest of the characters mention it the same amount (once)" width="672"></p>
 </figure>
 </div>
 </div>

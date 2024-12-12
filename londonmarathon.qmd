@@ -10,7 +10,7 @@ execute:
   message: false
 ---
 
-This data comes from [Nicola Rennie's](https://github.com/nrennie) [LondonMarathon R Package](https://github.com/nrennie/LondonMarathon) containing two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data. Rennie a self proclaimed "enjoyer of endurance races" curated this data set. 
+Source: This data comes from [Nicola Rennie's](https://github.com/nrennie) [LondonMarathon R Package](https://github.com/nrennie/LondonMarathon) containing two data sets scraped from Wikipedia on (1 November 2022) on London Marathon winners, and some general data. 
 
 This data was especially interesting to me as a long distance runner, I hope to one day run a marathon. This data comes from London Marathon data about runners accepted into the race. This is dependent on a [few factors](https://blog.irace.ai/london-marathon-qualifying-times): qualifying times (sometimes based on age groups), ballot entry (a lottery entry), running for charity, and many others. Potentially these modes of entry were added as years go by, a reason for the increased accepted runners, or maybe simply marathons have grown in popularity.   
 
@@ -23,7 +23,7 @@ winners <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/ti
 london_marathon <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-25/london_marathon.csv')
 ```
 
-```{r}
+```{r, fig.alt="Graph of Number of Accepted Runners to the London Marathon vs Year from 1980 to 2020 London marathons on the x-axis showing a generally positive correlation between the year and number of accepted runners, besides the year 2020 which had 0 accepted runners and 1980 which had much fewer runners than the next year"}
 
 ggplot(data = london_marathon, 
        aes(

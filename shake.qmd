@@ -21,7 +21,7 @@ romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascien
 
 To find a bar plot that explains which character mentions the most I filtered through the dialogue and kept only the pieces of dialogue which contained the word "death".
 
-```{r}
+```{r, fig.alt="Bar plot of which character mentions death the most, character on the x-axis and count on the y axis. Romeo has the most mentions of the word 'death' (with just below 20) and Friar Lawrence has the second most mentions of death (just below 15), the next is Juliet, then the rest of the characters are much lower and similar in terms of mentions of death"}
 library(stringr)
 library(dplyr)
 library(tidyr)
@@ -39,7 +39,7 @@ ggplot(deathrj, aes(x = character)) +
 This first graph shows that Romeo has the most instances of the word "death" in his dialogue and Friar Laurence had the second most in his dialogue. This is interesting because it makes sense that Romeo says death the most as he eventually is one of those who die in this tragedy and Friar Laurence is the one to encourage this from selling a sleeping potion. As Romeo has more dialogue presumably as one of the more main characters it makes sense that he has more mentions by count versus the Apothecary who sells Romeo poison that will kill him.
 
 This next bar plot will look at which act has the most mentions of death using the data frame we created called deathrj for the first graph. 
-```{r}
+```{r, fig.alt="Bar plot of which act has the most mentions of death with Act number on the x-axis and count on the y-axis. Act 3 (25 mentions) has the most mentions of death, next act 5 then 4,2 then 1."}
 act_num <- deathrj |>
   mutate(act = str_extract(act, "(?<=\\s)\\S+"))  #extracting only the act number and not the words "Act" in front of it 
   
@@ -54,7 +54,7 @@ Romeo and Juliet die in Act 5 Scene 3, so having the most mentions of death in A
 ### Punctuation
 This plot will analyze specifically dialogue in Act 3 looking for exclamations and question marks which indicate a strong emotion in the dialogue.
 
-```{r}
+```{r, fig.alt="Proportion bar plot of proportion of lines in Romeo and Juliet with strong punctuation marks across scenes in Act III. With scene on the x-axis and proportion on the y-axis. We can see that scene 5 has the highest proportion of strong punctuation marks in lines with approximately 66%, next is scene 1 with approximately 30% and the lowets is scene 2 with just above 15%"}
 filtered_act_num <- act_num |>
   filter(act == "III")|>
   mutate(strong_punctuation = str_detect(dialogue, "!+|\\?+")) |> #detecting any of those punctuation marks 
@@ -63,7 +63,7 @@ filtered_act_num <- act_num |>
 
 ggplot(filtered_act_num, aes(x = scene, fill = strong_punctuation))+
   geom_bar(position = "fill") + 
-  labs(title = "Proportion of strong punctuation marks across scenes", x = "Scene", y = "Proportion")
+  labs(title = "Proportion of lines with strong punctuation marks across scenes in Act III", x = "Scene", y = "Proportion")
 
 ```
 
@@ -71,7 +71,7 @@ This shows that there is a greater proportion of strong punctuation in Scene 5 t
 
 ### Act 3
 
-```{r}
+```{r, fig.alt="Bar plot of mentions of death across scenes in Act III. With scene on the x-axis and count on the y-axis. Shows that scene 3 in act 3 has the most mentions of death with 11"}
 ggplot(filtered_act_num, aes(x = scene)) +
   geom_bar(stat = "count") + 
   labs(title = "Mentions of death across scenes in Act III", x = "Scene", y = "Count")
@@ -79,10 +79,10 @@ ggplot(filtered_act_num, aes(x = scene)) +
 
 This may indicate that the mentions of death in the other scenes are less emotional and thus use less strong punctuation. We will look for the following word, symbol, or space after death, to see how they compare.
 
-```{r}
+```{r, fig.alt="Bar plot that shows the word/character after death in Act III, on the x-axis it is death and the word or character after death and count on the y-axis. The most common combination was 'death,'"}
 filtered_act_num <- act_num |>
   filter(act == "III")|>
-  mutate(word_after_death = str_extract(dialogue, "death\\s*\\S+")) #extracting moments when there is a word/character after death using spaces
+  mutate(word_after_death = str_extract(dialogue, "death\\s*\\S+"))  #extracting moments when there is a word/character after death using spaces
 
 ggplot(filtered_act_num, aes(x = word_after_death))+
   geom_bar(stat = "count")+
@@ -108,7 +108,7 @@ Here is further analysis on how family names associate with mentions of death:
 
 These next two plots analyze which characters mention the Montague's and the Capulet's the most.
 
-```{r}
+```{r, fig.alt="This graph is a bar plot of which characters mention the Montague family. The x-axis is the characters while the y-axis is the count. We can see that Juliet mentions the montague family the most, next the prince, next Capulet then Tybalt and Sampson.", fig.alt="This is a bar plot of which characters mention the Capulet family. The x-axis is the characterse while the y-axis is the count. We can see that Romeo and Benvolio mention the Capulet family the most, next Prince, and then the rest of the characters mention it the same amount (once)"}
 
 montague <- romeo_juliet |>
   mutate(dialogue_lower = str_to_lower(dialogue))|>
@@ -139,7 +139,7 @@ These two plots show that Juliet mentions the Montague family the most and Benvo
 
 The previous code assigned "Montague" to the dialogue which includes the Montagues and "Capulet" to the dialogue including the Capulets. In this next plot I will create a bar plot of the number of mentions of each family in each scene. Then see if this is related to the previous plots that counted the prevalence of the word deaths.  
 
-```{r}
+```{r, fig.alt="This is a side by side bar plot with one bar for Capulet then Montague showing the frequency that their family name was mentioned. The Acts are on the x-axis then frequency on the y-axis. It shows that act one had the most mentions of both families however the Montague family was mentioned more. Notably in act 4 only the Capulet family was mentioned."}
 library(dplyr)
 
 #binding both the data frames together to be able to create a bar plot with the bars next to each other for each act 
@@ -153,7 +153,8 @@ montague_and_capulet_summary <- montague_and_capulet |>
 
 montague_and_capulet_summary |>
   ggplot(aes(x = act, y = frequency, fill = Family)) + 
-  geom_bar(stat = "identity", position = position_dodge())
+  geom_bar(stat = "identity", position = position_dodge())+ 
+  labs(x = "Act", y = "Frequency", title = "Mentions of the Family Names in each Act")
 
 
 

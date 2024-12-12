@@ -60,7 +60,7 @@ soccer_grouped <- soccer_month |>
 
 The below data visualization shows the number of goals scored by home teams over the course of the season. It is important to note that the EPL season usually runs from August to May. Hence why the factor variable month_faceted was created and is used on the x-axis. 
 
-```{r}
+```{r, fig.alt="Bar plot of Goals Scored by Home Teams in the EPL for the 2020-2021 season, with months of the season from August to May on the x-axis and GOals by home team on the y-axis. This shows that the most goals scored by home teams was in December, next May and then April"}
 
 soccer_grouped |>
   ggplot(aes(x=month_faceted, y=Total_Goals)) + 
